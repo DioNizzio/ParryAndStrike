@@ -1,2 +1,2 @@
 # SeriousGame
-This game is a serious 2D game with the objective of teaching how to duel with longswords in HEMA, Historic European Martial Arts. With this in mind, the game purpose is to teach some basic moves (striking and parrying) and predicting them.
+This game is a strategic 2D game designed to teach players the fundamental principles and techniques of longsword dueling in HEMA. The players will assume the role of duelists, challenging a bot, using skills representing various longsword moves, guards and stances. The objective is to defeat the bot in a simulated duel while learning how to use said principles and techniques.
