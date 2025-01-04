@@ -6,7 +6,6 @@ public class UIManager : MonoBehaviour
 {
 
     public GameObject smallCircumference;
-
     private GameObject smallCircumferenceClone;
 
     public void InstanceSmallCircumference(Vector3 worldFirstPosition){
@@ -15,5 +14,9 @@ public class UIManager : MonoBehaviour
 
     public void DeleteSmallCircumference(){
         Destroy(smallCircumferenceClone);
+    }
+
+    public void QuitGame(){
+        Application.Quit();
     }
 }

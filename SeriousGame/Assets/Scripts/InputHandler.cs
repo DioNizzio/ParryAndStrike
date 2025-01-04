@@ -8,61 +8,103 @@ public class InputHandler : MonoBehaviour{
         BIGCIRCUMFERENCE,
         SMALLCIRCUMFERENCE
     }
+    public enum Moves{
+        IDLE,
+        SLASH,
+        THRUST,
+        PARRY,
+        DODGE
+    }
 
     private State _current_state;
+    private Moves _current_move;
 
-    [SerializeField] private PlayerManager _player;
+    [SerializeField] private GameManager _game;
 
-    [SerializeField] private UIManager _ui;
+    [SerializeField] private GameObject pauseMenu;
 
     private Camera _mainCamera;
 
+    PlayerInput playerInput;
+
+    private bool _isPaused;
+
     private void Awake(){
         _mainCamera = Camera.main;
+        playerInput = new PlayerInput();
         _current_state = State.BIGCIRCUMFERENCE;
+        _current_move = Moves.IDLE;
+        _isPaused = false;
+    }
+
+    void Update(){
+        if(playerInput.Gameplay.Pause.WasPressedThisFrame()){
+            if (!_isPaused){
+                PauseGame();
+            } else {
+                UnpauseGame();
+            }
+        }
     }
 
     public void OnClick(InputAction.CallbackContext context){
-        if(!context.started) return; //add OR can't attack
+        if(!context.started) return;
 
         var rayHit = Physics2D.GetRayIntersection(_mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue()));
         if(!rayHit.collider) return;
 
-        if(string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && _current_state == State.BIGCIRCUMFERENCE)
+        //make move
+        if(string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && _current_state == State.BIGCIRCUMFERENCE && (_current_move == Moves.SLASH || _current_move == Moves.THRUST || _current_move == Moves.PARRY))
         {
             _current_state = State.SMALLCIRCUMFERENCE;
-            
-            Vector3 mouseFirstPosition = Mouse.current.position.ReadValue();
-            mouseFirstPosition.z = _mainCamera.nearClipPlane;
-            var worldFirstPosition = _mainCamera.ScreenToWorldPoint(mouseFirstPosition);
 
-            //Call func from PlayerManager
-            _player.SetFirstPoint(worldFirstPosition);
-
-            //Call func from UIManager
-            _ui.InstanceSmallCircumference(worldFirstPosition);
+            //send specific move
+            _game.showSmallCircumferenceAndSaveFirstPoint();
         }
-        else if(string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && _current_state == State.SMALLCIRCUMFERENCE)
+        else if(string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && _current_state == State.SMALLCIRCUMFERENCE && (_current_move == Moves.SLASH || _current_move == Moves.THRUST || _current_move == Moves.PARRY))
         {
             _current_state = State.BIGCIRCUMFERENCE;
 
             //Call func from UIManager
-            _ui.DeleteSmallCircumference();
+            _game.DeleteSmallCircumference();
         }
-        else if(string.Equals(rayHit.collider.gameObject.name, "SmallCircumference") && _current_state == State.SMALLCIRCUMFERENCE)
+        else if(string.Equals(rayHit.collider.gameObject.name, "SmallCircumference") && _current_state == State.SMALLCIRCUMFERENCE && (_current_move == Moves.SLASH || _current_move == Moves.THRUST || _current_move == Moves.PARRY))
         {
-            Vector3 mouseSecondPosition = Mouse.current.position.ReadValue();
-            mouseSecondPosition.z = _mainCamera.nearClipPlane;
-            var worldSecondPosition = _mainCamera.ScreenToWorldPoint(mouseSecondPosition);
-         
-            //Call func from PlayerManager    
-            _player.SetSecondPoint(worldSecondPosition);
-
             _current_state = State.BIGCIRCUMFERENCE;
+            _current_move = Moves.IDLE;
 
-            //Call func from UIManager
-            _ui.DeleteSmallCircumference();
+            //send specific move
+            _game.eraseSmallCircumferenceAndSaveSecondPoint();
         }
-        
     }
+
+    public void PauseGame(){
+        pauseMenu.SetActive(true);
+        Time.timeScale = 0;
+        _isPaused = true;
+    }
+
+    public void UnpauseGame(){
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1;
+        _isPaused = false;
+    }
+
+    public void PressSlash(){
+        _current_move = Moves.SLASH;
+    }
+
+    public void PressThrust(){
+        _current_move = Moves.THRUST;
+    }
+
+    public void PressParry(){
+        _current_move = Moves.PARRY;
+    }
+
+    public void PressDodge(){
+        _current_move = Moves.DODGE;
+    }
+
+    //ver como fazer o player andar um pouco na direçao suposta por causa do dodge
 }
