@@ -23,12 +23,6 @@ public class GameManager : MonoBehaviour
         _current_turn = Turns.PLAYER;
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -55,9 +49,10 @@ public class GameManager : MonoBehaviour
         //Call func from PlayerManager    
         _player.SetSecondPoint(worldSecondPosition);
 
+        _player.calculateVector();
+
         //Call func from UIManager
         DeleteSmallCircumference();
-
     }
 
     public void DeleteSmallCircumference(){

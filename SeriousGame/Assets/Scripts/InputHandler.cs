@@ -50,9 +50,11 @@ public class InputHandler : MonoBehaviour{
     public void OnClick(InputAction.CallbackContext context){
         if(!context.started) return;
 
-        var rayHit = Physics2D.GetRayIntersection(_mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue()));
-        if(!rayHit.collider) return;
+        //var rayHit = Physics2D.GetRayIntersection(_mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue()));
+        var rayHit = Physics2D.Raycast(_mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()), Vector3.forward);
+        if (!rayHit.collider) return;
 
+        Debug.Log(rayHit.collider.gameObject.name);
         //make move
         if(string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && _current_state == State.BIGCIRCUMFERENCE && (_current_move == Moves.SLASH || _current_move == Moves.THRUST || _current_move == Moves.PARRY))
         {
@@ -60,6 +62,16 @@ public class InputHandler : MonoBehaviour{
 
             //send specific move
             _game.showSmallCircumferenceAndSaveFirstPoint();
+            Debug.Log("In");
+        }
+        else if (string.Equals(rayHit.collider.gameObject.name, "SmallCircumference(Clone)") && _current_state == State.SMALLCIRCUMFERENCE && (_current_move == Moves.SLASH || _current_move == Moves.THRUST || _current_move == Moves.PARRY))
+        {
+            _current_state = State.BIGCIRCUMFERENCE;
+            _current_move = Moves.IDLE;
+            Debug.Log("2In");
+
+            //send specific move
+            _game.eraseSmallCircumferenceAndSaveSecondPoint();
         }
         else if(string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && _current_state == State.SMALLCIRCUMFERENCE && (_current_move == Moves.SLASH || _current_move == Moves.THRUST || _current_move == Moves.PARRY))
         {
@@ -67,14 +79,8 @@ public class InputHandler : MonoBehaviour{
 
             //Call func from UIManager
             _game.DeleteSmallCircumference();
-        }
-        else if(string.Equals(rayHit.collider.gameObject.name, "SmallCircumference") && _current_state == State.SMALLCIRCUMFERENCE && (_current_move == Moves.SLASH || _current_move == Moves.THRUST || _current_move == Moves.PARRY))
-        {
-            _current_state = State.BIGCIRCUMFERENCE;
-            _current_move = Moves.IDLE;
-
-            //send specific move
-            _game.eraseSmallCircumferenceAndSaveSecondPoint();
+            
+            Debug.Log("Out");
         }
     }
 
