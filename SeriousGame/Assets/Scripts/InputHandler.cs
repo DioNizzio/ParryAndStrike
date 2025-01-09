@@ -12,12 +12,33 @@ public class InputHandler : MonoBehaviour{
         IDLE,
         SLASH,
         THRUST,
+        THRUST_DEFENSE,
         PARRY,
         DODGE
     }
+    public enum Dodge
+    {
+        IDLE,
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    }
+    public enum BodyPart
+    {
+        NONE,
+        HEAD,
+        TORSO,
+        LEFT_ARM,
+        RIGHT_ARM,
+        LEFT_LEG,
+        RIGHT_LEG
+    }
 
     private State _current_state;
-    private Moves _current_move;
+    public Moves current_move;
+    public Dodge current_dodge_direction;
+    public BodyPart current_body_part;
 
     [SerializeField] private GameManager _game;
 
@@ -33,7 +54,9 @@ public class InputHandler : MonoBehaviour{
         _mainCamera = Camera.main;
         playerInput = new PlayerInput();
         _current_state = State.BIGCIRCUMFERENCE;
-        _current_move = Moves.IDLE;
+        current_move = Moves.IDLE;
+        current_dodge_direction = Dodge.IDLE;
+        current_body_part = BodyPart.NONE;
         _isPaused = false;
     }
 
@@ -56,7 +79,7 @@ public class InputHandler : MonoBehaviour{
 
         Debug.Log(rayHit.collider.gameObject.name);
         //make move
-        if(string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && _current_state == State.BIGCIRCUMFERENCE && (_current_move == Moves.SLASH || _current_move == Moves.THRUST || _current_move == Moves.PARRY))
+        if(string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && _current_state == State.BIGCIRCUMFERENCE && (current_move == Moves.SLASH || current_move == Moves.PARRY))
         {
             _current_state = State.SMALLCIRCUMFERENCE;
 
@@ -64,16 +87,30 @@ public class InputHandler : MonoBehaviour{
             _game.showSmallCircumferenceAndSaveFirstPoint();
             Debug.Log("In");
         }
-        else if (string.Equals(rayHit.collider.gameObject.name, "SmallCircumference(Clone)") && _current_state == State.SMALLCIRCUMFERENCE && (_current_move == Moves.SLASH || _current_move == Moves.THRUST || _current_move == Moves.PARRY))
+        else if (string.Equals(rayHit.collider.gameObject.name, "SmallCircumference(Clone)") && _current_state == State.SMALLCIRCUMFERENCE && current_move == Moves.SLASH)
         {
             _current_state = State.BIGCIRCUMFERENCE;
-            _current_move = Moves.IDLE;
+            current_move = Moves.IDLE;
             Debug.Log("2In");
 
-            //send specific move
+            //destroy small circumference
             _game.eraseSmallCircumferenceAndSaveSecondPoint();
+
+            //send specific move
+            _game.SendDirectionToEnemy();
         }
-        else if(string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && _current_state == State.SMALLCIRCUMFERENCE && (_current_move == Moves.SLASH || _current_move == Moves.THRUST || _current_move == Moves.PARRY))
+        else if (string.Equals(rayHit.collider.gameObject.name, "SmallCircumference(Clone)") && _current_state == State.SMALLCIRCUMFERENCE && current_move == Moves.PARRY)
+        {
+            _current_state = State.BIGCIRCUMFERENCE;
+            current_move = Moves.IDLE;
+
+            //destroy small circumference
+            _game.eraseSmallCircumferenceAndSaveSecondPoint();
+
+            //send specific move
+            _game.Defended();
+        }
+        else if(string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && _current_state == State.SMALLCIRCUMFERENCE && (current_move == Moves.SLASH || current_move == Moves.PARRY))
         {
             _current_state = State.BIGCIRCUMFERENCE;
 
@@ -81,6 +118,19 @@ public class InputHandler : MonoBehaviour{
             _game.DeleteSmallCircumference();
             
             Debug.Log("Out");
+        }
+        else if (string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && current_move == Moves.THRUST)
+        {
+            _game.ChoosePlayerThrustPoint();
+        }
+        else if (current_move == Moves.THRUST_DEFENSE && (current_body_part == BodyPart.HEAD || current_body_part == BodyPart.TORSO || current_body_part == BodyPart.LEFT_ARM || current_body_part == BodyPart.RIGHT_ARM 
+            || current_body_part == BodyPart.LEFT_LEG || current_body_part == BodyPart.RIGHT_LEG))
+        {
+            _game.GetBodyPart(current_body_part);
+        }
+        else if (current_move == Moves.DODGE && (current_dodge_direction == Dodge.UP || current_dodge_direction == Dodge.DOWN || current_dodge_direction == Dodge.LEFT || current_dodge_direction == Dodge.RIGHT))
+        {
+            _game.GetDodgeDirection(current_dodge_direction);
         }
     }
 
@@ -97,20 +147,65 @@ public class InputHandler : MonoBehaviour{
     }
 
     public void PressSlash(){
-        _current_move = Moves.SLASH;
+        current_move = Moves.SLASH;
     }
 
     public void PressThrust(){
-        _current_move = Moves.THRUST;
+        current_move = Moves.THRUST;
+    }
+
+    public void PressThrustDefending()
+    {
+        current_move = Moves.THRUST_DEFENSE;
     }
 
     public void PressParry(){
-        _current_move = Moves.PARRY;
+        current_move = Moves.PARRY;
     }
 
     public void PressDodge(){
-        _current_move = Moves.DODGE;
+        current_move = Moves.DODGE;
     }
 
-    //ver como fazer o player andar um pouco na direçao suposta por causa do dodge
+    public void PressUpArrow()
+    {
+        current_dodge_direction = Dodge.UP;
+    }
+    public void PressDownArrow()
+    {
+        current_dodge_direction = Dodge.DOWN;
+    }
+    public void PressLeftArrow()
+    {
+        current_dodge_direction = Dodge.LEFT;
+    }
+    public void PressRightArrow()
+    {
+        current_dodge_direction = Dodge.RIGHT;
+    }
+    
+    public void PressHead()
+    {
+        current_body_part = BodyPart.HEAD;
+    }
+    public void PressTorso()
+    {
+        current_body_part = BodyPart.TORSO;
+    }
+    public void PressLeftArm()
+    {
+        current_body_part = BodyPart.LEFT_ARM;
+    }
+    public void PressRightArm()
+    {
+        current_body_part = BodyPart.RIGHT_ARM;
+    }
+    public void PressLeftLeg()
+    {
+        current_body_part = BodyPart.LEFT_LEG;
+    }
+    public void PressRightLeg()
+    {
+        current_body_part = BodyPart.RIGHT_LEG;
+    }
 }
