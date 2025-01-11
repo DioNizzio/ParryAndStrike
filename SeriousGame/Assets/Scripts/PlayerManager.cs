@@ -71,12 +71,14 @@ public class PlayerManager : MonoBehaviour
     public void PlayerAttackTurn()
     {
         _current_turn = Turn.PLAYER;
+        _DefendMenu.SetActive(false);
         _AttackMenu.SetActive(true);
     }
 
     public void PlayerDefendTurn(string enemyMove)
     {
         _current_turn = Turn.PLAYER;
+        _AttackMenu.SetActive(false);
         _DefendMenu.SetActive(true);
         if (enemyMove.Equals("PARRY")){
             _DefendThrustAbility.SetActive(false);
@@ -127,9 +129,18 @@ public class PlayerManager : MonoBehaviour
         _finalVector = _secondPoint - _firstPoint;
         Debug.Log(_finalVector);
     }
-    public Vector3 GetCalculatedVector()
+    /*public Vector3 GetCalculatedVector()
     {
         return _finalVector;
+    }*/
+
+    public Vector3 GetFirstPoint()
+    {
+        return _firstPoint;
+    }
+    public Vector3 GetSecondPoint()
+    {
+        return _secondPoint;
     }
 
     public void DodgeDirection(string direction)
@@ -153,7 +164,7 @@ public class PlayerManager : MonoBehaviour
     }
     public void SetBodyPart(string bodyPart)
     {
-        _Points.SetActive(true);
+        //_Points.SetActive(true);
         if (bodyPart.Equals("HEAD"))
         {
             _current_body_part = BodyPart.HEAD;
@@ -188,41 +199,51 @@ public class PlayerManager : MonoBehaviour
 
     public void HidePoints()
     {
-        _Points.SetActive(false);
+        //_Points.SetActive(false);
     }
 
-    public void resetCollider()
+    public void ResetCollider()
     {
         _collider.transform.position = Vector3.zero;
     }
 
-    public string TransformVectorToDirectionEnum()
+    public SlashData.Direction TransformVectorToDirectionEnum()
     {
         if(Vector3.Dot(_finalVector, Vector3.left) == 1 || Vector3.Dot(_finalVector, Vector3.left) > 0.8 || Vector3.Dot(_finalVector, Vector3.left) == -1 || Vector3.Dot(_finalVector, Vector3.left) < -0.8)
         {
-            _current_direction = "HORIZONTAL";
+            //_current_direction = "HORIZONTAL";
+            return SlashData.Direction.HORIZONTAL;
         }
         else if (Vector3.Dot(_finalVector, Vector3.up) == 1 || Vector3.Dot(_finalVector, Vector3.up) > 0.8 || Vector3.Dot(_finalVector, Vector3.up) == -1 || Vector3.Dot(_finalVector, Vector3.up) < -0.8)
         {
-            _current_direction = "VERTICAL";
+            //_current_direction = "VERTICAL";
+            return SlashData.Direction.VERTICAL;
         }
         else if (Vector3.Dot(_finalVector, new Vector3(1, 1, 0)) <= -0.5)
         {
-            _current_direction = "DIAGONAL1";
+            //_current_direction = "DIAGONAL1";
+            return SlashData.Direction.DIAGONAL1;
         }
         else if (Vector3.Dot(_finalVector, new Vector3(1, 1, 0)) >= 0.5)
         {
-            _current_direction = "DIAGONAL2";
+            //_current_direction = "DIAGONAL2";
+            return SlashData.Direction.DIAGONAL2;
         }
         else if (Vector3.Dot(_finalVector, new Vector3(-1, 1, 0)) <= -0.5)
         {
-            _current_direction = "DIAGONAL3";
+            //_current_direction = "DIAGONAL3";
+            return SlashData.Direction.DIAGONAL3;
         }
         else if (Vector3.Dot(_finalVector, new Vector3(-1, 1, 0)) >= 0.5)
         {
-            _current_direction = "DIAGONAL4";
+            //_current_direction = "DIAGONAL4";
+            return SlashData.Direction.DIAGONAL4;
+        }
+        else
+        {
+            Debug.LogError("Invalid slashData direction");
         }
 
-        return _current_direction;
+        return SlashData.Direction.NONE;//_current_direction;
     }
 }
