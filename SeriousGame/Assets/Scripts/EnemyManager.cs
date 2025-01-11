@@ -264,6 +264,7 @@ public class EnemyManager : MonoBehaviour
             if (randomDirection == 1) //1 = UP
             {
                 _collider.transform.position = new Vector3(0, 1.6f, 0);
+                Debug.Log("Enemy dodged up");
             }
             /*else if (randomDirection == 2) //1 = DOWN
             {
@@ -274,10 +275,12 @@ public class EnemyManager : MonoBehaviour
             else if (randomDirection == 2) //1 = LEFT
             {
                 _collider.transform.position = new Vector3(-1.6f, 0, 0);
+                Debug.Log("Enemy dodged left");
             }
             else if (randomDirection == 3) //1 = RIGHT
             {
                 _collider.transform.position = new Vector3(1.6f, 0, 0);
+                Debug.Log("Enemy dodged right");
             }
             enemyFinished = true;
         }
@@ -313,7 +316,7 @@ public class EnemyManager : MonoBehaviour
             if (randomDirection == 1) //1 = UP
             {
                 _collider.transform.position = new Vector3(0, 1.6f, 0);
-                
+                Debug.Log("Enemy dodged up");
             }
             /*else if (randomDirection == 2) //1 = DOWN
             {
@@ -324,10 +327,12 @@ public class EnemyManager : MonoBehaviour
             else if (randomDirection == 2) //1 = LEFT
             {
                 _collider.transform.position = new Vector3(-1.6f, 0, 0);
+                Debug.Log("Enemy dodged left");
             }
             else if (randomDirection == 3) //1 = RIGHT
             {
                 _collider.transform.position = new Vector3(1.6f, 0, 0);
+                Debug.Log("Enemy dodged right");
             }
             enemyFinished = true;
         }

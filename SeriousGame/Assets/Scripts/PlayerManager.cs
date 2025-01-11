@@ -25,6 +25,8 @@ public class PlayerManager : MonoBehaviour
 
     private Transform _bodyPart;
 
+    private Vector3 _spawnPosition;
+
     public enum BodyPart
     {
         NONE,
@@ -60,6 +62,7 @@ public class PlayerManager : MonoBehaviour
     {
         _current_turn = Turn.IDLE;
         _current_body_part = BodyPart.NONE;
+        _spawnPosition = _collider.transform.position;
         //_current_direction = Direction.NONE;
     }
 
@@ -204,7 +207,7 @@ public class PlayerManager : MonoBehaviour
 
     public void ResetCollider()
     {
-        _collider.transform.position = Vector3.zero;
+        _collider.transform.position = _spawnPosition;
     }
 
     public SlashData.Direction TransformVectorToDirectionEnum()

@@ -8426,408 +8426,412 @@ MonoBehaviour:
   _slashData:
   - PointA: {fileID: 745227752}
     PointB: {fileID: 1697354532}
-    AttackDirection: 1
-    CounterDirection: 2
-  - PointA: {fileID: 745227752}
-    PointB: {fileID: 1885267228}
-    AttackDirection: 2
-    CounterDirection: 4
-  - PointA: {fileID: 745227752}
-    PointB: {fileID: 1885267228}
-    AttackDirection: 2
-    CounterDirection: 5
-  - PointA: {fileID: 745227752}
-    PointB: {fileID: 1082456401}
-    AttackDirection: 4
-    CounterDirection: 2
-  - PointA: {fileID: 745227752}
-    PointB: {fileID: 1082456401}
-    AttackDirection: 4
-    CounterDirection: 3
-  - PointA: {fileID: 745227752}
-    PointB: {fileID: 202319562}
     AttackDirection: 2
     CounterDirection: 1
   - PointA: {fileID: 745227752}
+    PointB: {fileID: 1885267228}
+    AttackDirection: 3
+    CounterDirection: 5
+  - PointA: {fileID: 745227752}
+    PointB: {fileID: 1885267228}
+    AttackDirection: 3
+    CounterDirection: 6
+  - PointA: {fileID: 745227752}
+    PointB: {fileID: 1082456401}
+    AttackDirection: 5
+    CounterDirection: 3
+  - PointA: {fileID: 745227752}
+    PointB: {fileID: 1082456401}
+    AttackDirection: 5
+    CounterDirection: 4
+  - PointA: {fileID: 745227752}
     PointB: {fileID: 202319562}
-    AttackDirection: 4
+    AttackDirection: 1
     CounterDirection: 2
   - PointA: {fileID: 745227752}
     PointB: {fileID: 202319562}
-    AttackDirection: 4
+    AttackDirection: 5
     CounterDirection: 3
   - PointA: {fileID: 745227752}
-    PointB: {fileID: 70301108}
-    AttackDirection: 2
+    PointB: {fileID: 202319562}
+    AttackDirection: 5
     CounterDirection: 4
   - PointA: {fileID: 745227752}
     PointB: {fileID: 70301108}
-    AttackDirection: 2
+    AttackDirection: 3
+    CounterDirection: 5
+  - PointA: {fileID: 745227752}
+    PointB: {fileID: 70301108}
+    AttackDirection: 3
+    CounterDirection: 6
+  - PointA: {fileID: 745227752}
+    PointB: {fileID: 63045140}
+    AttackDirection: 1
+    CounterDirection: 2
+  - PointA: {fileID: 745227752}
+    PointB: {fileID: 63045140}
+    AttackDirection: 3
     CounterDirection: 5
   - PointA: {fileID: 745227752}
     PointB: {fileID: 63045140}
-    AttackDirection: 2
-    CounterDirection: 1
-  - PointA: {fileID: 745227752}
-    PointB: {fileID: 63045140}
-    AttackDirection: 2
-    CounterDirection: 4
-  - PointA: {fileID: 745227752}
-    PointB: {fileID: 63045140}
-    AttackDirection: 2
-    CounterDirection: 5
+    AttackDirection: 3
+    CounterDirection: 6
   - PointA: {fileID: 745227752}
     PointB: {fileID: 1603399033}
-    AttackDirection: 4
-    CounterDirection: 2
+    AttackDirection: 5
+    CounterDirection: 3
   - PointA: {fileID: 745227752}
     PointB: {fileID: 1603399033}
-    AttackDirection: 4
-    CounterDirection: 3
+    AttackDirection: 5
+    CounterDirection: 4
   - PointA: {fileID: 1697354532}
     PointB: {fileID: 745227752}
-    AttackDirection: 1
-    CounterDirection: 2
-  - PointA: {fileID: 1697354532}
-    PointB: {fileID: 1885267228}
-    AttackDirection: 5
-    CounterDirection: 2
-  - PointA: {fileID: 1697354532}
-    PointB: {fileID: 1885267228}
-    AttackDirection: 5
-    CounterDirection: 3
-  - PointA: {fileID: 1697354532}
-    PointB: {fileID: 1082456401}
-    AttackDirection: 3
-    CounterDirection: 4
-  - PointA: {fileID: 1697354532}
-    PointB: {fileID: 1082456401}
-    AttackDirection: 3
-    CounterDirection: 5
-  - PointA: {fileID: 1697354532}
-    PointB: {fileID: 202319562}
-    AttackDirection: 3
-    CounterDirection: 4
-  - PointA: {fileID: 1697354532}
-    PointB: {fileID: 202319562}
-    AttackDirection: 3
-    CounterDirection: 5
-  - PointA: {fileID: 1697354532}
-    PointB: {fileID: 70301108}
     AttackDirection: 2
     CounterDirection: 1
   - PointA: {fileID: 1697354532}
+    PointB: {fileID: 1885267228}
+    AttackDirection: 6
+    CounterDirection: 3
+  - PointA: {fileID: 1697354532}
+    PointB: {fileID: 1885267228}
+    AttackDirection: 6
+    CounterDirection: 4
+  - PointA: {fileID: 1697354532}
+    PointB: {fileID: 1082456401}
+    AttackDirection: 4
+    CounterDirection: 5
+  - PointA: {fileID: 1697354532}
+    PointB: {fileID: 1082456401}
+    AttackDirection: 4
+    CounterDirection: 6
+  - PointA: {fileID: 1697354532}
+    PointB: {fileID: 202319562}
+    AttackDirection: 4
+    CounterDirection: 5
+  - PointA: {fileID: 1697354532}
+    PointB: {fileID: 202319562}
+    AttackDirection: 4
+    CounterDirection: 6
+  - PointA: {fileID: 1697354532}
     PointB: {fileID: 70301108}
-    AttackDirection: 5
+    AttackDirection: 1
     CounterDirection: 2
   - PointA: {fileID: 1697354532}
     PointB: {fileID: 70301108}
-    AttackDirection: 5
+    AttackDirection: 6
+    CounterDirection: 3
+  - PointA: {fileID: 1697354532}
+    PointB: {fileID: 70301108}
+    AttackDirection: 6
+    CounterDirection: 4
+  - PointA: {fileID: 1697354532}
+    PointB: {fileID: 63045140}
+    AttackDirection: 6
     CounterDirection: 3
   - PointA: {fileID: 1697354532}
     PointB: {fileID: 63045140}
-    AttackDirection: 5
-    CounterDirection: 2
-  - PointA: {fileID: 1697354532}
-    PointB: {fileID: 63045140}
-    AttackDirection: 5
-    CounterDirection: 3
-  - PointA: {fileID: 1697354532}
-    PointB: {fileID: 1603399033}
-    AttackDirection: 2
-    CounterDirection: 1
-  - PointA: {fileID: 1697354532}
-    PointB: {fileID: 1603399033}
-    AttackDirection: 3
+    AttackDirection: 6
     CounterDirection: 4
   - PointA: {fileID: 1697354532}
     PointB: {fileID: 1603399033}
-    AttackDirection: 3
-    CounterDirection: 5
-  - PointA: {fileID: 1885267228}
-    PointB: {fileID: 745227752}
-    AttackDirection: 3
-    CounterDirection: 4
-  - PointA: {fileID: 1885267228}
-    PointB: {fileID: 745227752}
-    AttackDirection: 3
-    CounterDirection: 5
-  - PointA: {fileID: 1885267228}
-    PointB: {fileID: 1697354532}
-    AttackDirection: 4
+    AttackDirection: 1
     CounterDirection: 2
+  - PointA: {fileID: 1697354532}
+    PointB: {fileID: 1603399033}
+    AttackDirection: 4
+    CounterDirection: 5
+  - PointA: {fileID: 1697354532}
+    PointB: {fileID: 1603399033}
+    AttackDirection: 4
+    CounterDirection: 6
+  - PointA: {fileID: 1885267228}
+    PointB: {fileID: 745227752}
+    AttackDirection: 4
+    CounterDirection: 5
+  - PointA: {fileID: 1885267228}
+    PointB: {fileID: 745227752}
+    AttackDirection: 4
+    CounterDirection: 6
   - PointA: {fileID: 1885267228}
     PointB: {fileID: 1697354532}
-    AttackDirection: 4
+    AttackDirection: 5
     CounterDirection: 3
   - PointA: {fileID: 1885267228}
+    PointB: {fileID: 1697354532}
+    AttackDirection: 5
+    CounterDirection: 6
+  - PointA: {fileID: 1885267228}
     PointB: {fileID: 1082456401}
+    AttackDirection: 1
+    CounterDirection: 2
+  - PointA: {fileID: 1885267228}
+    PointB: {fileID: 202319562}
+    AttackDirection: 4
+    CounterDirection: 5
+  - PointA: {fileID: 1885267228}
+    PointB: {fileID: 202319562}
+    AttackDirection: 4
+    CounterDirection: 6
+  - PointA: {fileID: 1885267228}
+    PointB: {fileID: 70301108}
     AttackDirection: 2
     CounterDirection: 1
   - PointA: {fileID: 1885267228}
-    PointB: {fileID: 202319562}
-    AttackDirection: 3
-    CounterDirection: 4
-  - PointA: {fileID: 1885267228}
-    PointB: {fileID: 202319562}
-    AttackDirection: 3
-    CounterDirection: 5
-  - PointA: {fileID: 1885267228}
     PointB: {fileID: 70301108}
-    AttackDirection: 1
-    CounterDirection: 2
-  - PointA: {fileID: 1885267228}
-    PointB: {fileID: 70301108}
-    AttackDirection: 4
-    CounterDirection: 2
-  - PointA: {fileID: 1885267228}
-    PointB: {fileID: 70301108}
-    AttackDirection: 4
+    AttackDirection: 5
     CounterDirection: 3
   - PointA: {fileID: 1885267228}
-    PointB: {fileID: 63045140}
-    AttackDirection: 1
-    CounterDirection: 2
-  - PointA: {fileID: 1885267228}
-    PointB: {fileID: 63045140}
-    AttackDirection: 3
+    PointB: {fileID: 70301108}
+    AttackDirection: 5
     CounterDirection: 4
   - PointA: {fileID: 1885267228}
     PointB: {fileID: 63045140}
-    AttackDirection: 3
+    AttackDirection: 2
+    CounterDirection: 1
+  - PointA: {fileID: 1885267228}
+    PointB: {fileID: 63045140}
+    AttackDirection: 4
     CounterDirection: 5
   - PointA: {fileID: 1885267228}
-    PointB: {fileID: 1603399033}
+    PointB: {fileID: 63045140}
     AttackDirection: 4
-    CounterDirection: 2
+    CounterDirection: 6
   - PointA: {fileID: 1885267228}
     PointB: {fileID: 1603399033}
-    AttackDirection: 4
+    AttackDirection: 5
+    CounterDirection: 3
+  - PointA: {fileID: 1885267228}
+    PointB: {fileID: 1603399033}
+    AttackDirection: 5
+    CounterDirection: 4
+  - PointA: {fileID: 1082456401}
+    PointB: {fileID: 745227752}
+    AttackDirection: 6
     CounterDirection: 3
   - PointA: {fileID: 1082456401}
     PointB: {fileID: 745227752}
-    AttackDirection: 5
-    CounterDirection: 2
-  - PointA: {fileID: 1082456401}
-    PointB: {fileID: 745227752}
-    AttackDirection: 5
-    CounterDirection: 3
-  - PointA: {fileID: 1082456401}
-    PointB: {fileID: 1697354532}
-    AttackDirection: 2
+    AttackDirection: 6
     CounterDirection: 4
   - PointA: {fileID: 1082456401}
     PointB: {fileID: 1697354532}
-    AttackDirection: 2
+    AttackDirection: 3
     CounterDirection: 5
+  - PointA: {fileID: 1082456401}
+    PointB: {fileID: 1697354532}
+    AttackDirection: 3
+    CounterDirection: 6
   - PointA: {fileID: 1082456401}
     PointB: {fileID: 1885267228}
+    AttackDirection: 1
+    CounterDirection: 2
+  - PointA: {fileID: 1082456401}
+    PointB: {fileID: 202319562}
     AttackDirection: 2
     CounterDirection: 1
   - PointA: {fileID: 1082456401}
     PointB: {fileID: 202319562}
-    AttackDirection: 1
-    CounterDirection: 2
-  - PointA: {fileID: 1082456401}
-    PointB: {fileID: 202319562}
-    AttackDirection: 5
-    CounterDirection: 2
-  - PointA: {fileID: 1082456401}
-    PointB: {fileID: 202319562}
-    AttackDirection: 5
+    AttackDirection: 6
     CounterDirection: 3
   - PointA: {fileID: 1082456401}
-    PointB: {fileID: 70301108}
-    AttackDirection: 2
+    PointB: {fileID: 202319562}
+    AttackDirection: 6
     CounterDirection: 4
   - PointA: {fileID: 1082456401}
     PointB: {fileID: 70301108}
-    AttackDirection: 2
+    AttackDirection: 3
     CounterDirection: 5
   - PointA: {fileID: 1082456401}
-    PointB: {fileID: 63045140}
-    AttackDirection: 5
-    CounterDirection: 2
+    PointB: {fileID: 70301108}
+    AttackDirection: 3
+    CounterDirection: 6
   - PointA: {fileID: 1082456401}
     PointB: {fileID: 63045140}
-    AttackDirection: 5
+    AttackDirection: 6
     CounterDirection: 3
   - PointA: {fileID: 1082456401}
-    PointB: {fileID: 1603399033}
-    AttackDirection: 1
-    CounterDirection: 2
-  - PointA: {fileID: 1082456401}
-    PointB: {fileID: 1603399033}
-    AttackDirection: 2
+    PointB: {fileID: 63045140}
+    AttackDirection: 6
     CounterDirection: 4
   - PointA: {fileID: 1082456401}
     PointB: {fileID: 1603399033}
     AttackDirection: 2
+    CounterDirection: 1
+  - PointA: {fileID: 1082456401}
+    PointB: {fileID: 1603399033}
+    AttackDirection: 3
     CounterDirection: 5
+  - PointA: {fileID: 1082456401}
+    PointB: {fileID: 1603399033}
+    AttackDirection: 3
+    CounterDirection: 6
   - PointA: {fileID: 202319562}
     PointB: {fileID: 745227752}
-    AttackDirection: 5
+    AttackDirection: 1
     CounterDirection: 2
   - PointA: {fileID: 202319562}
     PointB: {fileID: 745227752}
-    AttackDirection: 5
+    AttackDirection: 6
     CounterDirection: 3
   - PointA: {fileID: 202319562}
-    PointB: {fileID: 1697354532}
-    AttackDirection: 2
+    PointB: {fileID: 745227752}
+    AttackDirection: 6
     CounterDirection: 4
   - PointA: {fileID: 202319562}
     PointB: {fileID: 1697354532}
-    AttackDirection: 2
+    AttackDirection: 3
+    CounterDirection: 5
+  - PointA: {fileID: 202319562}
+    PointB: {fileID: 1697354532}
+    AttackDirection: 3
+    CounterDirection: 6
+  - PointA: {fileID: 202319562}
+    PointB: {fileID: 1885267228}
+    AttackDirection: 3
     CounterDirection: 5
   - PointA: {fileID: 202319562}
     PointB: {fileID: 1885267228}
-    AttackDirection: 2
-    CounterDirection: 4
-  - PointA: {fileID: 202319562}
-    PointB: {fileID: 1885267228}
-    AttackDirection: 2
-    CounterDirection: 5
+    AttackDirection: 3
+    CounterDirection: 6
   - PointA: {fileID: 202319562}
     PointB: {fileID: 1082456401}
-    AttackDirection: 1
-    CounterDirection: 2
-  - PointA: {fileID: 202319562}
-    PointB: {fileID: 1082456401}
-    AttackDirection: 4
-    CounterDirection: 2
-  - PointA: {fileID: 202319562}
-    PointB: {fileID: 1082456401}
-    AttackDirection: 4
-    CounterDirection: 3
-  - PointA: {fileID: 202319562}
-    PointB: {fileID: 70301108}
-    AttackDirection: 2
-    CounterDirection: 4
-  - PointA: {fileID: 202319562}
-    PointB: {fileID: 70301108}
-    AttackDirection: 2
-    CounterDirection: 5
-  - PointA: {fileID: 202319562}
-    PointB: {fileID: 63045140}
     AttackDirection: 2
     CounterDirection: 1
   - PointA: {fileID: 202319562}
-    PointB: {fileID: 1603399033}
-    AttackDirection: 1
-    CounterDirection: 2
-  - PointA: {fileID: 70301108}
-    PointB: {fileID: 745227752}
-    AttackDirection: 3
-    CounterDirection: 4
-  - PointA: {fileID: 70301108}
-    PointB: {fileID: 745227752}
-    AttackDirection: 3
-    CounterDirection: 5
-  - PointA: {fileID: 70301108}
-    PointB: {fileID: 1697354532}
-    AttackDirection: 2
-    CounterDirection: 1
-  - PointA: {fileID: 70301108}
-    PointB: {fileID: 1697354532}
-    AttackDirection: 4
-    CounterDirection: 2
-  - PointA: {fileID: 70301108}
-    PointB: {fileID: 1697354532}
-    AttackDirection: 4
-    CounterDirection: 3
-  - PointA: {fileID: 70301108}
-    PointB: {fileID: 1885267228}
-    AttackDirection: 1
-    CounterDirection: 2
-  - PointA: {fileID: 70301108}
-    PointB: {fileID: 1885267228}
-    AttackDirection: 5
-    CounterDirection: 2
-  - PointA: {fileID: 70301108}
-    PointB: {fileID: 1885267228}
+    PointB: {fileID: 1082456401}
     AttackDirection: 5
     CounterDirection: 3
-  - PointA: {fileID: 70301108}
+  - PointA: {fileID: 202319562}
     PointB: {fileID: 1082456401}
-    AttackDirection: 3
+    AttackDirection: 5
     CounterDirection: 4
-  - PointA: {fileID: 70301108}
-    PointB: {fileID: 1082456401}
+  - PointA: {fileID: 202319562}
+    PointB: {fileID: 70301108}
     AttackDirection: 3
     CounterDirection: 5
-  - PointA: {fileID: 70301108}
-    PointB: {fileID: 202319562}
+  - PointA: {fileID: 202319562}
+    PointB: {fileID: 70301108}
     AttackDirection: 3
-    CounterDirection: 4
-  - PointA: {fileID: 70301108}
-    PointB: {fileID: 202319562}
-    AttackDirection: 3
-    CounterDirection: 5
-  - PointA: {fileID: 70301108}
+    CounterDirection: 6
+  - PointA: {fileID: 202319562}
     PointB: {fileID: 63045140}
     AttackDirection: 1
     CounterDirection: 2
+  - PointA: {fileID: 202319562}
+    PointB: {fileID: 1603399033}
+    AttackDirection: 2
+    CounterDirection: 1
+  - PointA: {fileID: 70301108}
+    PointB: {fileID: 745227752}
+    AttackDirection: 4
+    CounterDirection: 5
+  - PointA: {fileID: 70301108}
+    PointB: {fileID: 745227752}
+    AttackDirection: 4
+    CounterDirection: 6
+  - PointA: {fileID: 70301108}
+    PointB: {fileID: 1697354532}
+    AttackDirection: 1
+    CounterDirection: 2
+  - PointA: {fileID: 70301108}
+    PointB: {fileID: 1697354532}
+    AttackDirection: 5
+    CounterDirection: 3
+  - PointA: {fileID: 70301108}
+    PointB: {fileID: 1697354532}
+    AttackDirection: 5
+    CounterDirection: 4
+  - PointA: {fileID: 70301108}
+    PointB: {fileID: 1885267228}
+    AttackDirection: 2
+    CounterDirection: 1
+  - PointA: {fileID: 70301108}
+    PointB: {fileID: 1885267228}
+    AttackDirection: 6
+    CounterDirection: 3
+  - PointA: {fileID: 70301108}
+    PointB: {fileID: 1885267228}
+    AttackDirection: 6
+    CounterDirection: 4
+  - PointA: {fileID: 70301108}
+    PointB: {fileID: 1082456401}
+    AttackDirection: 4
+    CounterDirection: 5
+  - PointA: {fileID: 70301108}
+    PointB: {fileID: 1082456401}
+    AttackDirection: 4
+    CounterDirection: 6
+  - PointA: {fileID: 70301108}
+    PointB: {fileID: 202319562}
+    AttackDirection: 4
+    CounterDirection: 5
+  - PointA: {fileID: 70301108}
+    PointB: {fileID: 202319562}
+    AttackDirection: 4
+    CounterDirection: 6
+  - PointA: {fileID: 70301108}
+    PointB: {fileID: 63045140}
+    AttackDirection: 2
+    CounterDirection: 1
   - PointA: {fileID: 70301108}
     PointB: {fileID: 1603399033}
-    AttackDirection: 2
-    CounterDirection: 1
-  - PointA: {fileID: 63045140}
-    PointB: {fileID: 745227752}
-    AttackDirection: 2
-    CounterDirection: 1
-  - PointA: {fileID: 63045140}
-    PointB: {fileID: 745227752}
-    AttackDirection: 3
-    CounterDirection: 4
-  - PointA: {fileID: 63045140}
-    PointB: {fileID: 745227752}
-    AttackDirection: 3
-    CounterDirection: 5
-  - PointA: {fileID: 63045140}
-    PointB: {fileID: 1697354532}
-    AttackDirection: 4
-    CounterDirection: 2
-  - PointA: {fileID: 63045140}
-    PointB: {fileID: 1697354532}
-    AttackDirection: 4
-    CounterDirection: 3
-  - PointA: {fileID: 63045140}
-    PointB: {fileID: 1885267228}
     AttackDirection: 1
     CounterDirection: 2
   - PointA: {fileID: 63045140}
-    PointB: {fileID: 1885267228}
-    AttackDirection: 2
+    PointB: {fileID: 745227752}
+    AttackDirection: 1
+    CounterDirection: 2
+  - PointA: {fileID: 63045140}
+    PointB: {fileID: 745227752}
+    AttackDirection: 4
+    CounterDirection: 5
+  - PointA: {fileID: 63045140}
+    PointB: {fileID: 745227752}
+    AttackDirection: 4
+    CounterDirection: 6
+  - PointA: {fileID: 63045140}
+    PointB: {fileID: 1697354532}
+    AttackDirection: 5
+    CounterDirection: 3
+  - PointA: {fileID: 63045140}
+    PointB: {fileID: 1697354532}
+    AttackDirection: 5
     CounterDirection: 4
   - PointA: {fileID: 63045140}
     PointB: {fileID: 1885267228}
     AttackDirection: 2
+    CounterDirection: 1
+  - PointA: {fileID: 63045140}
+    PointB: {fileID: 1885267228}
+    AttackDirection: 3
     CounterDirection: 5
   - PointA: {fileID: 63045140}
-    PointB: {fileID: 1082456401}
-    AttackDirection: 4
-    CounterDirection: 2
+    PointB: {fileID: 1885267228}
+    AttackDirection: 3
+    CounterDirection: 6
   - PointA: {fileID: 63045140}
     PointB: {fileID: 1082456401}
-    AttackDirection: 4
+    AttackDirection: 5
     CounterDirection: 3
+  - PointA: {fileID: 63045140}
+    PointB: {fileID: 1082456401}
+    AttackDirection: 5
+    CounterDirection: 4
   - PointA: {fileID: 63045140}
     PointB: {fileID: 202319562}
-    AttackDirection: 2
-    CounterDirection: 1
-  - PointA: {fileID: 63045140}
-    PointB: {fileID: 70301108}
     AttackDirection: 1
     CounterDirection: 2
   - PointA: {fileID: 63045140}
-    PointB: {fileID: 1603399033}
-    AttackDirection: 4
-    CounterDirection: 2
+    PointB: {fileID: 70301108}
+    AttackDirection: 2
+    CounterDirection: 1
   - PointA: {fileID: 63045140}
     PointB: {fileID: 1603399033}
-    AttackDirection: 4
+    AttackDirection: 5
     CounterDirection: 3
+  - PointA: {fileID: 63045140}
+    PointB: {fileID: 1603399033}
+    AttackDirection: 5
+    CounterDirection: 4
   _thrustData:
   - PointA: {fileID: 1583293548}
   - PointA: {fileID: 813215784}

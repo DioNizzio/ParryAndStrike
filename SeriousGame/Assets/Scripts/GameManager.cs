@@ -149,16 +149,52 @@ public class GameManager : MonoBehaviour
         return _current_turn;
     }
 
-    public void CheckHit()
+    public void CheckIfPlayerWasHit()
     {
         var ray = Physics2D.Raycast(_enemyAttackPointA, _enemyAttackPointB, 50.0f, LayerMask.GetMask("PlayerBody"));
         if(ray.collider == null)
         {
-            Debug.Log("Didn't hit anything");
+            Debug.Log("Enemy didn't hit anything");
         }
         else
         {
-            Debug.Log("Hit -> true");
+            Debug.Log("Enemy Hit -> true");
+        }
+    }
+    public void CheckIfPlayerWasHitWithThrust()
+    {
+        var ray = Physics2D.Raycast(_mainCamera.transform.position, _enemyFinalVector, 50.0f, LayerMask.GetMask("PlayerBody"));
+        if(ray.collider == null)
+        {
+            Debug.Log("Enemy didn't hit anything");
+        }
+        else
+        {
+            Debug.Log("Enemy Hit -> true");
+        }
+    }
+    public void CheckIfEnemyWasHit()
+    {
+        var ray = Physics2D.Raycast(_playerPointA, _playerPointB, 50.0f, LayerMask.GetMask("EnemyBody"));
+        if(ray.collider == null)
+        {
+            Debug.Log("Player didn't hit anything");
+        }
+        else
+        {
+            Debug.Log("Player Hit -> true");
+        }
+    }
+    public void CheckIfEnemyWasHitWithThrust()
+    {
+        var ray = Physics2D.Raycast(_mainCamera.transform.position, _playerThrustPoint, 50.0f, LayerMask.GetMask("EnemyBody"));
+        if(ray.collider == null)
+        {
+            Debug.Log("Player didn't hit anything");
+        }
+        else
+        {
+            Debug.Log("Player Hit -> true");
         }
     }
 
@@ -185,7 +221,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                CheckHit();
+                CheckIfPlayerWasHit();
                 Debug.Log("Parry -> false");
             }
 
@@ -217,7 +253,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                CheckHit();
+                CheckIfPlayerWasHitWithThrust();
                 Debug.Log("Parry -> false");
             }
             /*else if () //hits collider
@@ -233,8 +269,24 @@ public class GameManager : MonoBehaviour
         }
         else if (_inputHandler.current_move == InputHandler.Moves.DODGE)
         {
+            if (_enemy.current_move == EnemyManager.Moves.SLASH)
+            {
+                _enemyAttackPointA = _enemy.GetAttackPointA();
+                _enemyAttackPointB = _enemy.GetAttackPointB();
+
+                CheckIfPlayerWasHit();
+            }
+            else if (_enemy.current_move == EnemyManager.Moves.THRUST)
+            {
+                _enemyFinalVector = _enemy.GetAttackVector();
+                CheckIfPlayerWasHitWithThrust();
+            }
+            else
+            {
+                Debug.LogError("Enemy had different current move than slash or thrust");
+            }
+            
             Debug.Log("dodge");
-            CheckHit();
             /*if () //hits collider
             {
                 //it was true, so player hits enemy -> play sound of hit and take damage
@@ -272,6 +324,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                CheckIfEnemyWasHit();
                 Debug.Log("Parry -> false");
             }
             /*else if () //hits collider
@@ -300,6 +353,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                CheckIfEnemyWasHitWithThrust();
                 Debug.Log("Parry -> false");
             }
             /*else if () //hits collider
@@ -313,6 +367,21 @@ public class GameManager : MonoBehaviour
         }
         else if (_enemy.current_move == EnemyManager.Moves.DODGE)
         {
+            if (_inputHandler.current_move == InputHandler.Moves.IDLE) //Should be Slash but in InputHandler when the player finishes the slash it changes to IDLE because the player could still click on the big circumference if current_move was still slash
+            {
+                _playerPointA = _player.GetFirstPoint();
+                _playerPointB = _player.GetSecondPoint();
+                CheckIfEnemyWasHit();
+            }
+            else if (_inputHandler.current_move == InputHandler.Moves.THRUST)
+            {
+                _playerThrustPoint = _player.GetThrustPoint();
+                CheckIfEnemyWasHitWithThrust();
+            }
+            else
+            {
+                Debug.LogError("Player had different current move than slash or thrust");
+            }
             Debug.Log("enemy dodge");
             /*if () //hits collider
             {
@@ -489,9 +558,9 @@ public class GameManager : MonoBehaviour
 
     public void SendDirectionToEnemy()
     {
-        _current_turn = Turns.ENEMY_DEFEND;
-        _enemy.GetPlayerDirection(_player.TransformVectorToDirectionEnum());
+        _current_turn = Turns.ENEMY_DEFEND;        
         Debug.Log("Player Attacked");
+        _enemy.GetPlayerDirection(_player.TransformVectorToDirectionEnum());
     }
 
     public void DeleteSmallCircumference(){
