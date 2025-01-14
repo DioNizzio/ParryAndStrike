@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerManager _player;
 
     [SerializeField] private UIManager _ui;
+    [SerializeField] private GameObject _attackMenuUI;
+    [SerializeField] private GameObject _defendMenuUI;
+    [SerializeField] private GameObject _thurstDefenseMenuUI;
 
     [SerializeField] private EnemyManager _enemy;
 
@@ -149,6 +152,42 @@ public class GameManager : MonoBehaviour
         return _current_turn;
     }
 
+    public IEnumerator TimeForPlayerToDefend()
+    {
+        yield return new WaitForSeconds(5f);
+
+        Debug.Log("waited 5 seconds");
+        //_enemy.ChangeToAttackSprite();
+        if(_inputHandler.current_move == InputHandler.Moves.PARRY)
+        {
+            CheckIfPlayerWasHit();
+        }
+        else if (_inputHandler.current_move == InputHandler.Moves.THRUST_DEFENSE)
+        {
+            CheckIfPlayerWasHitWithThrust();
+        }
+
+        _inputHandler.current_move = InputHandler.Moves.IDLE;
+        _defendMenuUI.SetActive(false);
+        if(_inputHandler.current_state == InputHandler.State.SMALLCIRCUMFERENCE)
+        {
+            DeleteSmallCircumference();
+        }
+        _thurstDefenseMenuUI.SetActive(false);
+        _attackMenuUI.SetActive(false);
+        yield return new WaitForSeconds(2f);
+        Debug.Log("waited 2 seconds");
+        _attackMenuUI.SetActive(true);
+        _enemy.ChangeSpriteToIdle();
+        _current_turn = Turns.PLAYER_ATTACK;
+    }
+
+    public IEnumerator Wait2Seconds()
+    {
+        yield return new WaitForSeconds(2f);
+        _enemy.ChangeSpriteToIdle();
+    }
+
     public void CheckIfPlayerWasHit()
     {
         var ray = Physics2D.Raycast(_enemyAttackPointA, _enemyAttackPointB, 50.0f, LayerMask.GetMask("PlayerBody"));
@@ -200,6 +239,11 @@ public class GameManager : MonoBehaviour
 
     public void PlayerFinishedDefending()
     {
+        _enemy.StopCoroutine(_enemy.coroutine);
+
+        //Change to enemy attack sprite
+        _enemy.ChangeToAttackSprite();
+
         Debug.Log("Player finished defending");
         Debug.Log("current player move: " + _inputHandler.current_move);
         if (_inputHandler.current_move == InputHandler.Moves.PARRY)
@@ -300,6 +344,7 @@ public class GameManager : MonoBehaviour
             //tell player to reset collider to zero
             _player.ResetCollider();
         }
+        StartCoroutine(Wait2Seconds());
         _current_turn = Turns.PLAYER_ATTACK;
     }
 
@@ -395,6 +440,7 @@ public class GameManager : MonoBehaviour
             }*/
 
         }
+        StartCoroutine(Wait2Seconds());
     }
 
     public static bool checkIntersection(Vector3 playerPointA, Vector3 playerPointB, Vector3 enemyPointA, Vector3 enemyPointB)

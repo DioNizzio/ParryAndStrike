@@ -35,7 +35,7 @@ public class InputHandler : MonoBehaviour{
         RIGHT_LEG
     }
 
-    private State _current_state;
+    public State current_state;
     public Moves current_move;
     public Dodge current_dodge_direction;
     public BodyPart current_body_part;
@@ -53,7 +53,7 @@ public class InputHandler : MonoBehaviour{
     private void Awake(){
         _mainCamera = Camera.main;
         playerInput = new PlayerInput();
-        _current_state = State.BIGCIRCUMFERENCE;
+        current_state = State.BIGCIRCUMFERENCE;
         current_move = Moves.IDLE;
         current_dodge_direction = Dodge.IDLE;
         current_body_part = BodyPart.NONE;
@@ -80,17 +80,17 @@ public class InputHandler : MonoBehaviour{
 
         Debug.Log(rayHit.collider.gameObject.name);
         //make move
-        if (string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && _current_state == State.BIGCIRCUMFERENCE && (current_move == Moves.SLASH || current_move == Moves.PARRY))
+        if (string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && current_state == State.BIGCIRCUMFERENCE && (current_move == Moves.SLASH || current_move == Moves.PARRY))
         {
-            _current_state = State.SMALLCIRCUMFERENCE;
+            current_state = State.SMALLCIRCUMFERENCE;
 
             //send specific move
             _game.showSmallCircumferenceAndSaveFirstPoint();
             Debug.Log("In");
         }
-        else if (string.Equals(rayHit.collider.gameObject.name, "SmallCircumference(Clone)") && _current_state == State.SMALLCIRCUMFERENCE && current_move == Moves.SLASH)
+        else if (string.Equals(rayHit.collider.gameObject.name, "SmallCircumference(Clone)") && current_state == State.SMALLCIRCUMFERENCE && current_move == Moves.SLASH)
         {
-            _current_state = State.BIGCIRCUMFERENCE;
+            current_state = State.BIGCIRCUMFERENCE;
             Debug.Log("2In");
 
             //destroy small circumference
@@ -100,20 +100,20 @@ public class InputHandler : MonoBehaviour{
             _game.SendDirectionToEnemy();
             current_move = Moves.IDLE;
         }
-        else if (string.Equals(rayHit.collider.gameObject.name, "SmallCircumference(Clone)") && _current_state == State.SMALLCIRCUMFERENCE && current_move == Moves.PARRY)
+        else if (string.Equals(rayHit.collider.gameObject.name, "SmallCircumference(Clone)") && current_state == State.SMALLCIRCUMFERENCE && current_move == Moves.PARRY)
         {
-            _current_state = State.BIGCIRCUMFERENCE;
+            current_state = State.BIGCIRCUMFERENCE;
 
             //destroy small circumference
             _game.eraseSmallCircumferenceAndSaveSecondPoint();
-
+            
             //send specific move
-            _game.PlayerFinishedDefending();            
+            _game.PlayerFinishedDefending();
             current_move = Moves.IDLE;
         }
-        else if (string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && _current_state == State.SMALLCIRCUMFERENCE && (current_move == Moves.SLASH || current_move == Moves.PARRY))
+        else if (string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && current_state == State.SMALLCIRCUMFERENCE && (current_move == Moves.SLASH || current_move == Moves.PARRY))
         {
-            _current_state = State.BIGCIRCUMFERENCE;
+            current_state = State.BIGCIRCUMFERENCE;
 
             //Call func from UIManager
             _game.DeleteSmallCircumference();
