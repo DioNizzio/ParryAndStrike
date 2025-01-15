@@ -35,6 +35,7 @@ public class EnemyManager : MonoBehaviour
     private Vector2 _spawnColliderOffset;
 
     public Coroutine coroutine;
+    public Coroutine coroutine1;
 
     public enum Moves
     {
@@ -80,24 +81,20 @@ public class EnemyManager : MonoBehaviour
     public void PlayerTurn()
     {
         _current_turn = Turn.PLAYER;
-        //Points.SetActive(false);
-        //BodyPoints.SetActive(false);
     }
 
     public void EnemyAttackTurn()
     {
+        //ChangeSpriteToIdle();
         _collider.transform.position = _spawnPosition;
         _collider.GetComponent<CapsuleCollider2D>().size = _spawnColliderSize;
         _collider.GetComponent<CapsuleCollider2D>().offset = _spawnColliderOffset;
         _current_turn = Turn.ENEMY_ATTACK;
-        //Points.SetActive(true);
-        //BodyPoints.SetActive(true);
+        Attack();
     }
     public void EnemyDefendTurn()
     {
         _current_turn = Turn.ENEMY_DEFEND;
-        //Points.SetActive(true);
-        //BodyPoints.SetActive(true);
     }
 
     public void GetPlayerDirection(SlashData.Direction direction)
@@ -313,83 +310,82 @@ public class EnemyManager : MonoBehaviour
 
     public void Attack()
     {
-        //randomly choose to slash or thrust
-        int random = Random.Range(1, 11);
-        if (random <= 7)
+        if (_game.GetEnemyPoints() != 12 && _game.GetPlayerPoints() != 12)
         {
-            current_move = Moves.SLASH;
-        }
-        else
-        {
-            current_move = Moves.THRUST;
-        }
-
-        if (current_move == Moves.SLASH)
-        {
-            //choose a random attack
-            int slashAux = Random.Range(0, 116);
-            _slashDirection = (SlashData)_slashData.GetValue(slashAux);
-
-            //calculate random point A inside Circle A
-            var centerAttackPointA = _slashDirection.PointA.transform.position;
-            var radiusAttackPointA = _slashDirection.PointA.transform.GetComponent<SphereCollider>().radius;
-            _attackPointA = GetVectorInsidePoint(centerAttackPointA, radiusAttackPointA);
-
-            //calculate random point B inside Circle B
-            var centerAttackPointB = _slashDirection.PointB.transform.position;
-            var radiusAttackPointB = _slashDirection.PointB.transform.GetComponent<SphereCollider>().radius;
-            _attackPointB = GetVectorInsidePoint(centerAttackPointB, radiusAttackPointB);
-
-            //calculate final parry vector
-            //_attackVector = _attackPointB - _attackPointA;
-
-            enemyFinished = true;            
-            _enemySpriteRenderer.sprite = GetInitialSprite(_slashDirection);
-            coroutine = StartCoroutine(_game.TimeForPlayerToDefend());
-        }
-        else if (current_move == Moves.THRUST)
-        {
-            //choose a random area
-            int thrustAux = Random.Range(0, 6);
-            _thrustArea = (ThrustData)_thrustData.GetValue(thrustAux);
-            var thrustPointCenter = _thrustArea.PointA.transform.position;
-            var thrustAreaCapsuleCollider = _thrustArea.PointA.transform.GetComponent<CapsuleCollider2D>();
-
-            if (thrustAux == 0)
+            //randomly choose to slash or thrust
+            int random = Random.Range(1, 11);
+            if (random <= 7)
             {
-                float randomX = Random.Range(0, 0.38f);
-                float randomY = Random.Range(0, 0.38f);
-
-                _attackVector = thrustPointCenter + new Vector3(randomX, randomY, 0);
+                current_move = Moves.SLASH;
             }
-            else if (thrustAux == 1)
+            else
             {
-                float randomX = Random.Range(0, 0.68f);
-                float randomY = Random.Range(0, 0.68f);
-
-                _attackVector = thrustPointCenter + new Vector3(randomX, randomY, 0);
-            }
-            else if (thrustAux == 2)
-            {
-                //find a random point inside capsules
-                _attackVector = GetRandomPointInCapsule(thrustAreaCapsuleCollider);
-            }
-            else if (thrustAux == 3)
-            {
-                _attackVector = GetRandomPointInCapsule(thrustAreaCapsuleCollider);
-            }
-            else if (thrustAux == 4)
-            {
-                _attackVector = GetRandomPointInCapsule(thrustAreaCapsuleCollider);
-            }
-            else if (thrustAux == 5)
-            {
-                _attackVector = GetRandomPointInCapsule(thrustAreaCapsuleCollider);
+                current_move = Moves.THRUST;
             }
 
-            enemyFinished = true;
-            _enemySpriteRenderer.sprite = _enemyInitialPoses[1].pose;
-            coroutine = StartCoroutine(_game.TimeForPlayerToDefend());
+            if (current_move == Moves.SLASH)
+            {
+                //choose a random attack
+                int slashAux = Random.Range(0, 116);
+                _slashDirection = (SlashData)_slashData.GetValue(slashAux);
+
+                //calculate random point A inside Circle A
+                var centerAttackPointA = _slashDirection.PointA.transform.position;
+                var radiusAttackPointA = _slashDirection.PointA.transform.GetComponent<SphereCollider>().radius;
+                _attackPointA = GetVectorInsidePoint(centerAttackPointA, radiusAttackPointA);
+
+                //calculate random point B inside Circle B
+                var centerAttackPointB = _slashDirection.PointB.transform.position;
+                var radiusAttackPointB = _slashDirection.PointB.transform.GetComponent<SphereCollider>().radius;
+                _attackPointB = GetVectorInsidePoint(centerAttackPointB, radiusAttackPointB);
+
+                enemyFinished = true;
+                _enemySpriteRenderer.sprite = GetInitialSprite(_slashDirection);
+                coroutine = StartCoroutine(_game.TimeForPlayerToDefend());
+            }
+            else if (current_move == Moves.THRUST)
+            {
+                //choose a random area
+                int thrustAux = Random.Range(0, 6);
+                _thrustArea = (ThrustData)_thrustData.GetValue(thrustAux);
+                var thrustPointCenter = _thrustArea.PointA.transform.position;
+                var thrustAreaCapsuleCollider = _thrustArea.PointA.transform.GetComponent<CapsuleCollider2D>();
+
+                if (thrustAux == 0)
+                {
+                    float randomX = Random.Range(0, 0.3f);
+                    float randomY = Random.Range(0, 0.3f);
+
+                    _attackVector = thrustPointCenter + new Vector3(randomX, randomY, 0);
+                }
+                else if (thrustAux == 1)
+                {
+                    float randomX = Random.Range(0, 0.5f);
+                    float randomY = Random.Range(0, 0.5f);
+
+                    _attackVector = thrustPointCenter + new Vector3(randomX, randomY, 0);
+                }
+                else if (thrustAux == 2)
+                {
+                    //find a random point inside capsules
+                    _attackVector = GetRandomPointInCapsule(thrustAreaCapsuleCollider);
+                }
+                else if (thrustAux == 3)
+                {
+                    _attackVector = GetRandomPointInCapsule(thrustAreaCapsuleCollider);
+                }
+                else if (thrustAux == 4)
+                {
+                    _attackVector = GetRandomPointInCapsule(thrustAreaCapsuleCollider);
+                }
+                else if (thrustAux == 5)
+                {
+                    _attackVector = GetRandomPointInCapsule(thrustAreaCapsuleCollider);
+                }
+                enemyFinished = true;
+                _enemySpriteRenderer.sprite = _enemyInitialPoses[1].pose;
+                coroutine = StartCoroutine(_game.TimeForPlayerToDefend());
+            }
         }
     }
 
@@ -433,11 +429,9 @@ public class EnemyManager : MonoBehaviour
             var radiusDefensePointB = _parryDirection.PointB.transform.GetComponent<SphereCollider>().radius;
             _defensePointB = GetVectorInsidePoint(centerDefensePointB, radiusDefensePointB);
 
-            //calculate final parry vector
-            //_defendVector = _defensePointB - _defensePointA;
-
-            enemyFinished = true;
             _enemySpriteRenderer.sprite = GetDefensiveParrySprite(_parryDirection);
+            _game.EnemyFinishedDefending();
+            coroutine1 = StartCoroutine(_game.EnemyWait2Seconds());
         }
         else if (current_move == Moves.DODGE)
         {
@@ -445,7 +439,6 @@ public class EnemyManager : MonoBehaviour
             
             if (randomDirection == 1) //1 = UP
             {
-                //_collider.transform.position = new Vector3(0, 1.6f, 0);
                 _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.up * 0.8f;
                 _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(0.9f, 2.6f);
                 _enemySpriteRenderer.sprite = _enemyDefendingPoses[10].pose;
@@ -453,7 +446,6 @@ public class EnemyManager : MonoBehaviour
             }
             else if (randomDirection == 2) //1 = DOWN
             {
-                //_collider.transform.position = new Vector3(0, -1.6f, 0);
                 //shrink collider
                _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.down * 0.65f;
                _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(1, 2.2f);
@@ -462,22 +454,20 @@ public class EnemyManager : MonoBehaviour
             else if (randomDirection == 2) //1 = LEFT
             {
                 _collider.transform.position = new Vector3(-1.6f, 0, 0);
-                _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.left * 0.1f;
-                _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(0.9f, 3.2f);
+                _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.down * 0.1f;
+                _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(0.9f, 2.8f);
                 _enemySpriteRenderer.sprite = _enemyDefendingPoses[12].pose;
-                Debug.Log("Enemy dodged left");
             }
             else if (randomDirection == 3) //1 = RIGHT
             {
                 _collider.transform.position = new Vector3(1.6f, 0, 0);
-                _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.right * 0.1f;
-                _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(0.9f, 3.2f);
+                _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.down * 0.1f;
+                _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(0.9f, 2.8f);
                 _enemySpriteRenderer.sprite = _enemyDefendingPoses[13].pose;
-                Debug.Log("Enemy dodged right");
             }
-            enemyFinished = true;
+            _game.EnemyFinishedDefending();
+            coroutine1 = StartCoroutine(_game.EnemyWait2Seconds());
         }
-        Debug.Log("Enemy Finished Defense");
     }
 
     public void DefendThrust()
@@ -499,44 +489,44 @@ public class EnemyManager : MonoBehaviour
             int thrustAux = Random.Range(0, 6);
             _thrustArea = (ThrustData)_thrustData.GetValue(thrustAux);
             //game manager receives area and has to check if player point is inside chosen area
-            enemyFinished = true;            
+
             _enemySpriteRenderer.sprite = GetDefensiveThrustSprite(_thrustArea);
+            _game.EnemyFinishedDefending();
+            coroutine1 = StartCoroutine(_game.EnemyWait2Seconds());
         }
         else if (current_move == Moves.DODGE)
         {
             int randomDirection = Random.Range(1, 4);
 
-            if (randomDirection == 1) //1 = UP
+            if (randomDirection == 1) 
             {
                 _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.up * 0.8f;
                 _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(0.9f, 2.6f);
                 _enemySpriteRenderer.sprite = _enemyDefendingPoses[10].pose;
-                Debug.Log("Enemy dodged up");
             }
-            else if (randomDirection == 2) //1 = DOWN
+            else if (randomDirection == 2) 
             {
                 //shrink collider
                 _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.down * 0.65f;
                 _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(1, 2.2f);
                 _enemySpriteRenderer.sprite = _enemyDefendingPoses[11].pose;
             }
-            else if (randomDirection == 2) //1 = LEFT
+            else if (randomDirection == 2) 
             {
                 _collider.transform.position = new Vector3(-1.6f, 0, 0);
-                _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.left * 0.1f;
-                _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(0.9f, 3.2f);
+                _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.down * 0.1f;
+                _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(0.9f, 2.8f);
                 _enemySpriteRenderer.sprite = _enemyDefendingPoses[12].pose;
-                Debug.Log("Enemy dodged left");
             }
-            else if (randomDirection == 3) //1 = RIGHT
+            else if (randomDirection == 3)
             {
                 _collider.transform.position = new Vector3(1.6f, 0, 0);
-                _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.right * 0.1f;
-                _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(0.9f, 3.2f);
+                _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.down * 0.1f;
+                _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(0.9f, 2.8f);
                 _enemySpriteRenderer.sprite = _enemyDefendingPoses[13].pose;
-                Debug.Log("Enemy dodged right");
             }
-            enemyFinished = true;
+            _game.EnemyFinishedDefending();
+            coroutine1 = StartCoroutine(_game.EnemyWait2Seconds());
         }
     }
 
@@ -624,10 +614,6 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    /*public Vector3 GetDefendVector()
-    {
-        return _defendVector;
-    }*/
     public Vector3 GetDefensePointA()
     {
         return _defensePointA;
@@ -649,7 +635,6 @@ public class EnemyManager : MonoBehaviour
     {
         return _attackPointB;
     }
-
     public Transform GetEnemyArea()
     {
         return _thrustArea.PointA;

@@ -38,14 +38,6 @@ public class PlayerManager : MonoBehaviour
         RIGHT_LEG
     }
 
-    /*public enum Direction{
-        NONE,
-        HORIZONTAL,
-        VERTICAL,
-        DIAGONAL1,
-        DIAGONAL2
-    }*/
-
     public enum Turn
     {
         IDLE,
@@ -62,14 +54,7 @@ public class PlayerManager : MonoBehaviour
     {
         _current_turn = Turn.IDLE;
         _current_body_part = BodyPart.NONE;
-        _spawnPosition = _collider.transform.position;
-        //_current_direction = Direction.NONE;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _spawnPosition = _collider.parent.position;
     }
     public void PlayerAttackTurn()
     {
@@ -130,12 +115,7 @@ public class PlayerManager : MonoBehaviour
     public void calculateVector()
     {
         _finalVector = _secondPoint - _firstPoint;
-        Debug.Log(_finalVector);
     }
-    /*public Vector3 GetCalculatedVector()
-    {
-        return _finalVector;
-    }*/
 
     public Vector3 GetFirstPoint()
     {
@@ -150,24 +130,27 @@ public class PlayerManager : MonoBehaviour
     {
         if (direction.Equals("UP"))
         {
-            _collider.transform.position = new Vector3(0, 1.6f, 0);
+            _collider.parent.position = new Vector3(0, 2f, 0);
+            //_collider.transform.position = new Vector3(0, 2f, 0);
         }
         if (direction.Equals("DOWN"))
         {
-            _collider.transform.position = new Vector3(0, -1.6f, 0);
+            _collider.parent.position = new Vector3(0, -2.8f, 0);
+            //_collider.transform.position = new Vector3(0, -2.8f, 0);
         }
         if (direction.Equals("LEFT"))
         {
-            _collider.transform.position = new Vector3(-1.6f, 0, 0);
+            _collider.parent.position = new Vector3(-3f, -1.2f, 0);
+            //_collider.transform.position = new Vector3(-1.6f, 0, 0);
         }
         if (direction.Equals("RIGHT"))
         {
-            _collider.transform.position = new Vector3(1.6f, 0, 0);
+            _collider.parent.position = new Vector3(3f, -1.2f, 0);
+            //_collider.transform.position = new Vector3(1.6f, 0, 0);
         }
     }
     public void SetBodyPart(string bodyPart)
     {
-        //_Points.SetActive(true);
         if (bodyPart.Equals("HEAD"))
         {
             _current_body_part = BodyPart.HEAD;
@@ -200,46 +183,35 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void HidePoints()
-    {
-        //_Points.SetActive(false);
-    }
-
     public void ResetCollider()
     {
-        _collider.transform.position = _spawnPosition;
+        _collider.parent.position = _spawnPosition;
     }
 
     public SlashData.Direction TransformVectorToDirectionEnum()
     {
         if(Vector3.Dot(_finalVector, Vector3.left) == 1 || Vector3.Dot(_finalVector, Vector3.left) > 0.8 || Vector3.Dot(_finalVector, Vector3.left) == -1 || Vector3.Dot(_finalVector, Vector3.left) < -0.8)
         {
-            //_current_direction = "HORIZONTAL";
             return SlashData.Direction.HORIZONTAL;
         }
         else if (Vector3.Dot(_finalVector, Vector3.up) == 1 || Vector3.Dot(_finalVector, Vector3.up) > 0.8 || Vector3.Dot(_finalVector, Vector3.up) == -1 || Vector3.Dot(_finalVector, Vector3.up) < -0.8)
         {
-            //_current_direction = "VERTICAL";
             return SlashData.Direction.VERTICAL;
         }
         else if (Vector3.Dot(_finalVector, new Vector3(1, 1, 0)) <= -0.5)
         {
-            //_current_direction = "DIAGONAL1";
             return SlashData.Direction.DIAGONAL1;
         }
         else if (Vector3.Dot(_finalVector, new Vector3(1, 1, 0)) >= 0.5)
         {
-            //_current_direction = "DIAGONAL2";
             return SlashData.Direction.DIAGONAL2;
         }
         else if (Vector3.Dot(_finalVector, new Vector3(-1, 1, 0)) <= -0.5)
         {
-            //_current_direction = "DIAGONAL3";
             return SlashData.Direction.DIAGONAL3;
         }
         else if (Vector3.Dot(_finalVector, new Vector3(-1, 1, 0)) >= 0.5)
         {
-            //_current_direction = "DIAGONAL4";
             return SlashData.Direction.DIAGONAL4;
         }
         else
@@ -247,6 +219,6 @@ public class PlayerManager : MonoBehaviour
             Debug.LogError("Invalid slashData direction");
         }
 
-        return SlashData.Direction.NONE;//_current_direction;
+        return SlashData.Direction.NONE;
     }
 }

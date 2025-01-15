@@ -78,7 +78,6 @@ public class InputHandler : MonoBehaviour{
         var rayHit = Physics2D.Raycast(_mainCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue()), Vector3.forward, 50.0f, LayerMask.GetMask("Circle"));
         if (!rayHit.collider) return;
 
-        Debug.Log(rayHit.collider.gameObject.name);
         //make move
         if (string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && current_state == State.BIGCIRCUMFERENCE && (current_move == Moves.SLASH || current_move == Moves.PARRY))
         {
@@ -86,12 +85,10 @@ public class InputHandler : MonoBehaviour{
 
             //send specific move
             _game.showSmallCircumferenceAndSaveFirstPoint();
-            Debug.Log("In");
         }
         else if (string.Equals(rayHit.collider.gameObject.name, "SmallCircumference(Clone)") && current_state == State.SMALLCIRCUMFERENCE && current_move == Moves.SLASH)
         {
             current_state = State.BIGCIRCUMFERENCE;
-            Debug.Log("2In");
 
             //destroy small circumference
             _game.eraseSmallCircumferenceAndSaveSecondPoint();
@@ -117,8 +114,6 @@ public class InputHandler : MonoBehaviour{
 
             //Call func from UIManager
             _game.DeleteSmallCircumference();
-
-            Debug.Log("Out");
         }
         else if (string.Equals(rayHit.collider.gameObject.name, "BigCircumference") && current_move == Moves.THRUST)
         {

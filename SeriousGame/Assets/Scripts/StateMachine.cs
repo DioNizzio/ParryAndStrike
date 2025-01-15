@@ -37,19 +37,15 @@ public class StateMachine
             case GameManager.Turns.IDLE:
                 break;
             case GameManager.Turns.PLAYER_ATTACK:                
-                Debug.Log("PLAYER_ATTACK");
                 _gameManager.PlayerAttack();
                 break;
             case GameManager.Turns.PLAYER_DEFEND:
-                Debug.Log("PLAYER_DEFEND");
                 _gameManager.PlayerDefend();
                 break;
             case GameManager.Turns.ENEMY_ATTACK:
-                Debug.Log("ENEMY_ATTACK");
                 _gameManager.EnemyAttack();
                 break;
             case GameManager.Turns.ENEMY_DEFEND:
-                Debug.Log("ENEMY_DEFEND");
                 _gameManager.EnemyDefend();
                 break;
         }
