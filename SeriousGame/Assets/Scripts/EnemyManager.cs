@@ -31,6 +31,8 @@ public class EnemyManager : MonoBehaviour
     //private Vector3 _defendVector;
 
     private Vector3 _spawnPosition;
+    private Vector2 _spawnColliderSize;
+    private Vector2 _spawnColliderOffset;
 
     public Coroutine coroutine;
 
@@ -66,6 +68,8 @@ public class EnemyManager : MonoBehaviour
     private void Awake()
     {
         _spawnPosition = _collider.transform.position;
+        _spawnColliderSize = _collider.GetComponent<CapsuleCollider2D>().size;
+        _spawnColliderOffset = _collider.GetComponent<CapsuleCollider2D>().offset;
         _current_direction = SlashData.Direction.NONE;
         current_move = Moves.IDLE;
         _current_turn = Turn.PLAYER;
@@ -83,6 +87,8 @@ public class EnemyManager : MonoBehaviour
     public void EnemyAttackTurn()
     {
         _collider.transform.position = _spawnPosition;
+        _collider.GetComponent<CapsuleCollider2D>().size = _spawnColliderSize;
+        _collider.GetComponent<CapsuleCollider2D>().offset = _spawnColliderOffset;
         _current_turn = Turn.ENEMY_ATTACK;
         //Points.SetActive(true);
         //BodyPoints.SetActive(true);
@@ -136,37 +142,41 @@ public class EnemyManager : MonoBehaviour
 
     public Sprite GetInitialSprite(SlashData attackData)
     {
-        if (attackData.AttackDirection == SlashData.Direction.VERTICAL && (attackData.PointA.transform.name.Equals("Point (1)") || attackData.PointA.transform.name.Equals("Point (5)") || attackData.PointA.transform.name.Equals("Point (7)")))
+        if (attackData.AttackDirection == SlashData.Direction.VERTICAL && (attackData.PointA.transform.name.Equals("Point (1)") || (attackData.PointB.transform.name.Equals("Point (6)") && attackData.PointA.transform.name.Equals("Point (3)")) || (attackData.PointB.transform.name.Equals("Point (8)") && attackData.PointA.transform.name.Equals("Point (4)")) || attackData.PointA.transform.name.Equals("Point (5)") || attackData.PointA.transform.name.Equals("Point (7)")))
         {
             return _enemyInitialPoses[2].pose;
         }
-        else if (attackData.AttackDirection == SlashData.Direction.VERTICAL && (attackData.PointA.transform.name.Equals("Point (2)") || attackData.PointA.transform.name.Equals("Point (6)") || attackData.PointA.transform.name.Equals("Point (8)")))
+        else if (attackData.AttackDirection == SlashData.Direction.VERTICAL && (attackData.PointA.transform.name.Equals("Point (2)") || (attackData.PointB.transform.name.Equals("Point (7)") && attackData.PointA.transform.name.Equals("Point (3)")) || attackData.PointA.transform.name.Equals("Point (6)")))
         {
             return _enemyInitialPoses[3].pose;
-        }
-        else if (attackData.AttackDirection == SlashData.Direction.HORIZONTAL && (attackData.PointA.transform.name.Equals("Point (3)") || attackData.PointA.transform.name.Equals("Point (6)") || attackData.PointA.transform.name.Equals("Point (7)")))
+        
+        }else if (attackData.AttackDirection == SlashData.Direction.VERTICAL && ((attackData.PointB.transform.name.Equals("Point (5)") && attackData.PointA.transform.name.Equals("Point (4)")) || attackData.PointA.transform.name.Equals("Point (8)")))
         {
             return _enemyInitialPoses[4].pose;
         }
-        else if (attackData.AttackDirection == SlashData.Direction.HORIZONTAL && (attackData.PointA.transform.name.Equals("Point (4)") || attackData.PointA.transform.name.Equals("Point (5)") || attackData.PointA.transform.name.Equals("Point (8)")))
+        else if (attackData.AttackDirection == SlashData.Direction.HORIZONTAL && (attackData.PointA.transform.name.Equals("Point (3)") || attackData.PointA.transform.name.Equals("Point (6)") || attackData.PointA.transform.name.Equals("Point (7)") || (attackData.PointA.transform.name.Equals("Point (1)") && attackData.PointB.transform.name.Equals("Point (5)")) || (attackData.PointA.transform.name.Equals("Point (2)") && attackData.PointB.transform.name.Equals("Point (8)"))))
         {
             return _enemyInitialPoses[5].pose;
         }
-        else if (attackData.AttackDirection == SlashData.Direction.DIAGONAL3)
+        else if (attackData.AttackDirection == SlashData.Direction.HORIZONTAL && (attackData.PointA.transform.name.Equals("Point (4)") || attackData.PointA.transform.name.Equals("Point (5)") || attackData.PointA.transform.name.Equals("Point (8)") || (attackData.PointA.transform.name.Equals("Point (1)") && attackData.PointB.transform.name.Equals("Point (7)")) || (attackData.PointA.transform.name.Equals("Point (2)") && attackData.PointB.transform.name.Equals("Point (6)"))))
         {
             return _enemyInitialPoses[6].pose;
         }
-        else if (attackData.AttackDirection == SlashData.Direction.DIAGONAL1)
+        else if (attackData.AttackDirection == SlashData.Direction.DIAGONAL3)
         {
             return _enemyInitialPoses[7].pose;
         }
-        else if (attackData.AttackDirection == SlashData.Direction.DIAGONAL2)
+        else if (attackData.AttackDirection == SlashData.Direction.DIAGONAL1)
         {
             return _enemyInitialPoses[8].pose;
         }
-        else if (attackData.AttackDirection == SlashData.Direction.DIAGONAL4)
+        else if (attackData.AttackDirection == SlashData.Direction.DIAGONAL2)
         {
             return _enemyInitialPoses[9].pose;
+        }
+        else if (attackData.AttackDirection == SlashData.Direction.DIAGONAL4)
+        {
+            return _enemyInitialPoses[10].pose;
         }
         else
         {
@@ -185,33 +195,37 @@ public class EnemyManager : MonoBehaviour
         {
             _enemySpriteRenderer.sprite = _enemyAttackingPoses[1].pose;
         }
-        else if (_enemySpriteRenderer.sprite.name.Equals("VERTICALDOWNUPPose"))
+        else if (_enemySpriteRenderer.sprite.name.Equals("VERTICALDOWNUPLEFTPose"))
         {
             _enemySpriteRenderer.sprite = _enemyAttackingPoses[2].pose;
         }
-        else if (_enemySpriteRenderer.sprite.name.Equals("HORIZONTALPoseLEFT_RIGHT"))
+        else if (_enemySpriteRenderer.sprite.name.Equals("VERTICALDOWNUPRIGHTPose"))
         {
             _enemySpriteRenderer.sprite = _enemyAttackingPoses[3].pose;
         }
-        else if (_enemySpriteRenderer.sprite.name.Equals("HORIZONTALPoseRIGHT_LEFT"))
+        else if (_enemySpriteRenderer.sprite.name.Equals("HORIZONTALPoseLEFT_RIGHT"))
         {
             _enemySpriteRenderer.sprite = _enemyAttackingPoses[4].pose;
         }
-        else if (_enemySpriteRenderer.sprite.name.Equals("DIAGONAL1PoseRIGHT_LEFT_UP_DOWN"))
+        else if (_enemySpriteRenderer.sprite.name.Equals("HORIZONTALPoseRIGHT_LEFT"))
         {
             _enemySpriteRenderer.sprite = _enemyAttackingPoses[5].pose;
         }
-        else if (_enemySpriteRenderer.sprite.name.Equals("DIAGONAL2PoseLEFT_RIGHT_DOWN_UP"))
+        else if (_enemySpriteRenderer.sprite.name.Equals("DIAGONAL1PoseRIGHT_LEFT_UP_DOWN"))
         {
             _enemySpriteRenderer.sprite = _enemyAttackingPoses[6].pose;
         }
-        else if (_enemySpriteRenderer.sprite.name.Equals("DIAGONAL3PoseLEFT_RIGHT_UP_DOWN"))
+        else if (_enemySpriteRenderer.sprite.name.Equals("DIAGONAL2PoseLEFT_RIGHT_DOWN_UP"))
         {
             _enemySpriteRenderer.sprite = _enemyAttackingPoses[7].pose;
         }
-        else if (_enemySpriteRenderer.sprite.name.Equals("DIAGONAL4PoseRIGHT_LEFT_DOWN_UP"))
+        else if (_enemySpriteRenderer.sprite.name.Equals("DIAGONAL3PoseLEFT_RIGHT_UP_DOWN"))
         {
             _enemySpriteRenderer.sprite = _enemyAttackingPoses[8].pose;
+        }
+        else if (_enemySpriteRenderer.sprite.name.Equals("DIAGONAL4PoseRIGHT_LEFT_DOWN_UP"))
+        {
+            _enemySpriteRenderer.sprite = _enemyAttackingPoses[9].pose;
         }
     }
 
@@ -271,19 +285,19 @@ public class EnemyManager : MonoBehaviour
         }
         else if (bodyPart.PointA.transform.name.Equals("LEFT_ARM"))
         {
-            return _enemyDefendingPoses[8].pose;
+            return _enemyDefendingPoses[6].pose;
         }
         else if (bodyPart.PointA.transform.name.Equals("RIGHT_ARM"))
         {
-            return _enemyDefendingPoses[6].pose;
+            return _enemyDefendingPoses[8].pose;
         }
         else if (bodyPart.PointA.transform.name.Equals("LEFT_LEG"))
         {
-            return _enemyDefendingPoses[1].pose;
+            return _enemyDefendingPoses[0].pose;
         }
         else if (bodyPart.PointA.transform.name.Equals("RIGHT_LEG"))
         {
-            return _enemyDefendingPoses[0].pose;
+            return _enemyDefendingPoses[1].pose;
         }
         else
         {
@@ -329,7 +343,7 @@ public class EnemyManager : MonoBehaviour
             //calculate final parry vector
             //_attackVector = _attackPointB - _attackPointA;
 
-            enemyFinished = true;
+            enemyFinished = true;            
             _enemySpriteRenderer.sprite = GetInitialSprite(_slashDirection);
             coroutine = StartCoroutine(_game.TimeForPlayerToDefend());
         }
@@ -374,7 +388,6 @@ public class EnemyManager : MonoBehaviour
             }
 
             enemyFinished = true;
-
             _enemySpriteRenderer.sprite = _enemyInitialPoses[1].pose;
             coroutine = StartCoroutine(_game.TimeForPlayerToDefend());
         }
@@ -432,27 +445,34 @@ public class EnemyManager : MonoBehaviour
             
             if (randomDirection == 1) //1 = UP
             {
-                _collider.transform.position = new Vector3(0, 1.6f, 0);
-                _enemySpriteRenderer.sprite = _enemyInitialPoses[10].pose;
+                //_collider.transform.position = new Vector3(0, 1.6f, 0);
+                _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.up * 0.8f;
+                _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(0.9f, 2.6f);
+                _enemySpriteRenderer.sprite = _enemyDefendingPoses[10].pose;
                 Debug.Log("Enemy dodged up");
             }
-            /*else if (randomDirection == 2) //1 = DOWN
+            else if (randomDirection == 2) //1 = DOWN
             {
-                _collider.transform.position = new Vector3(0, -1.6f, 0);
-                also need to shrink sprite and collider
-               _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.down * 2;
-               _enemySpriteRenderer.sprite = _enemyInitialPoses[11].pose;
-            }*/
+                //_collider.transform.position = new Vector3(0, -1.6f, 0);
+                //shrink collider
+               _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.down * 0.65f;
+               _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(1, 2.2f);
+               _enemySpriteRenderer.sprite = _enemyDefendingPoses[11].pose;
+            }
             else if (randomDirection == 2) //1 = LEFT
             {
                 _collider.transform.position = new Vector3(-1.6f, 0, 0);
-                _enemySpriteRenderer.sprite = _enemyInitialPoses[12].pose;
+                _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.left * 0.1f;
+                _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(0.9f, 3.2f);
+                _enemySpriteRenderer.sprite = _enemyDefendingPoses[12].pose;
                 Debug.Log("Enemy dodged left");
             }
             else if (randomDirection == 3) //1 = RIGHT
             {
                 _collider.transform.position = new Vector3(1.6f, 0, 0);
-                _enemySpriteRenderer.sprite = _enemyInitialPoses[13].pose;
+                _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.right * 0.1f;
+                _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(0.9f, 3.2f);
+                _enemySpriteRenderer.sprite = _enemyDefendingPoses[13].pose;
                 Debug.Log("Enemy dodged right");
             }
             enemyFinished = true;
@@ -478,9 +498,9 @@ public class EnemyManager : MonoBehaviour
             //choose random area
             int thrustAux = Random.Range(0, 6);
             _thrustArea = (ThrustData)_thrustData.GetValue(thrustAux);
-            _enemySpriteRenderer.sprite = GetDefensiveThrustSprite(_thrustArea);
             //game manager receives area and has to check if player point is inside chosen area
-            enemyFinished = true;
+            enemyFinished = true;            
+            _enemySpriteRenderer.sprite = GetDefensiveThrustSprite(_thrustArea);
         }
         else if (current_move == Moves.DODGE)
         {
@@ -488,27 +508,32 @@ public class EnemyManager : MonoBehaviour
 
             if (randomDirection == 1) //1 = UP
             {
-                _collider.transform.position = new Vector3(0, 1.6f, 0);
-                _enemySpriteRenderer.sprite = _enemyInitialPoses[10].pose;
+                _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.up * 0.8f;
+                _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(0.9f, 2.6f);
+                _enemySpriteRenderer.sprite = _enemyDefendingPoses[10].pose;
                 Debug.Log("Enemy dodged up");
             }
-            /*else if (randomDirection == 2) //1 = DOWN
+            else if (randomDirection == 2) //1 = DOWN
             {
-                _collider.transform.position = new Vector3(0, -1.6f, 0);
-                also need to shrink collider and sprite crouch
-                _enemySpriteRenderer.sprite = _enemyInitialPoses[11].pose;
-
-            }*/
+                //shrink collider
+                _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.down * 0.65f;
+                _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(1, 2.2f);
+                _enemySpriteRenderer.sprite = _enemyDefendingPoses[11].pose;
+            }
             else if (randomDirection == 2) //1 = LEFT
             {
                 _collider.transform.position = new Vector3(-1.6f, 0, 0);
-                _enemySpriteRenderer.sprite = _enemyInitialPoses[12].pose;
+                _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.left * 0.1f;
+                _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(0.9f, 3.2f);
+                _enemySpriteRenderer.sprite = _enemyDefendingPoses[12].pose;
                 Debug.Log("Enemy dodged left");
             }
             else if (randomDirection == 3) //1 = RIGHT
             {
                 _collider.transform.position = new Vector3(1.6f, 0, 0);
-                _enemySpriteRenderer.sprite = _enemyInitialPoses[13].pose;
+                _collider.GetComponent<CapsuleCollider2D>().offset = Vector2.right * 0.1f;
+                _collider.GetComponent<CapsuleCollider2D>().size = new Vector2(0.9f, 3.2f);
+                _enemySpriteRenderer.sprite = _enemyDefendingPoses[13].pose;
                 Debug.Log("Enemy dodged right");
             }
             enemyFinished = true;

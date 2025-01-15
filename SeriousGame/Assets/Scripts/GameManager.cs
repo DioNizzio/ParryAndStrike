@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,10 +12,21 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _attackMenuUI;
     [SerializeField] private GameObject _defendMenuUI;
     [SerializeField] private GameObject _thurstDefenseMenuUI;
+    [SerializeField] private GameObject _arrowsMenuUI;
+    [SerializeField] private GameObject _enemyPointsText;
+    [SerializeField] private GameObject _playerPointsText;
+    [SerializeField] private GameObject _timeToAttackText;
+    [SerializeField] private GameObject _playerWinsMenu;
+    [SerializeField] private GameObject _enemyWinsMenu;
 
     [SerializeField] private EnemyManager _enemy;
 
     [SerializeField] private InputHandler _inputHandler;
+
+    [SerializeField] private AudioSource _swordHit;
+    [SerializeField] private AudioSource _swordMiss;
+    [SerializeField] private AudioSource _swordUnseathe;
+    [SerializeField] private AudioSource _swordsHit;
 
     private Camera _mainCamera;
 
@@ -48,6 +60,15 @@ public class GameManager : MonoBehaviour
     private PlayerManager.BodyPart _playerBodyPart;
     private string _enemyBodyPart;
 
+    private int _enemyPoints = 0;
+    private int _playerPoints = 0;
+
+    private bool isWaiting = false;
+    private float timer = 5f;
+
+    private Coroutine _coroutineWait2Seconds;
+    private Coroutine _coroutineEnemyWait2Seconds;
+
     private void Awake() {
         _mainCamera = Camera.main;
         _current_turn = Turns.IDLE;
@@ -58,7 +79,11 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         _stateMachine.Update();
-
+        if (isWaiting)
+        {
+            timer -= Time.deltaTime;
+            _timeToAttackText.GetComponent<TMP_Text>().text = "Time left to attack: " + Mathf.RoundToInt(timer);
+        }
         /*Debug.Log(_current_turn);
         if (_current_turn == Turns.PLAYER_ATTACK)
         {
@@ -141,6 +166,7 @@ public class GameManager : MonoBehaviour
         {
             EnemyFinishedDefending();
 
+            _coroutineEnemyWait2Seconds = StartCoroutine(EnemyWait2Seconds());
             _current_turn = Turns.ENEMY_ATTACK;
             _enemy.enemyFinished = false;
             _enemy.Attack();
@@ -154,15 +180,19 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator TimeForPlayerToDefend()
     {
+        isWaiting = true;
+        _timeToAttackText.SetActive(true);
         yield return new WaitForSeconds(5f);
-
-        Debug.Log("waited 5 seconds");
-        //_enemy.ChangeToAttackSprite();
-        if(_inputHandler.current_move == InputHandler.Moves.PARRY)
+        isWaiting = false;
+        _timeToAttackText.SetActive(false);
+        timer = 5f;
+        Debug.Log("waited 5 seconds and: " + _inputHandler.current_move);
+        _enemy.ChangeToAttackSprite();
+        if(_enemy.current_move == EnemyManager.Moves.SLASH)
         {
             CheckIfPlayerWasHit();
         }
-        else if (_inputHandler.current_move == InputHandler.Moves.THRUST_DEFENSE)
+        else if (_enemy.current_move == EnemyManager.Moves.THRUST)
         {
             CheckIfPlayerWasHitWithThrust();
         }
@@ -173,6 +203,7 @@ public class GameManager : MonoBehaviour
         {
             DeleteSmallCircumference();
         }
+        _arrowsMenuUI.SetActive(false);
         _thurstDefenseMenuUI.SetActive(false);
         _attackMenuUI.SetActive(false);
         yield return new WaitForSeconds(2f);
@@ -184,8 +215,14 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator Wait2Seconds()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2f);       
         _enemy.ChangeSpriteToIdle();
+    }
+    public IEnumerator EnemyWait2Seconds()
+    {
+        Debug.Log("wait 2 seconds");
+        yield return new WaitForSeconds(2f);
+        Debug.Log("waited 2 seconds");
     }
 
     public void CheckIfPlayerWasHit()
@@ -194,10 +231,18 @@ public class GameManager : MonoBehaviour
         if(ray.collider == null)
         {
             Debug.Log("Enemy didn't hit anything");
+            PlayMissSound();
         }
         else
         {
             Debug.Log("Enemy Hit -> true");
+            PlayHitSound();
+            _enemyPoints += 1;
+            _enemyPointsText.transform.GetComponent<TMP_Text>().text = "Enemy Points: " + _enemyPoints;
+            if (_enemyPoints == 12)
+            {
+                EnemyWins();
+            }
         }
     }
     public void CheckIfPlayerWasHitWithThrust()
@@ -206,10 +251,18 @@ public class GameManager : MonoBehaviour
         if(ray.collider == null)
         {
             Debug.Log("Enemy didn't hit anything");
+            PlayMissSound();
         }
         else
         {
             Debug.Log("Enemy Hit -> true");
+            PlayHitSound();
+            _enemyPoints += 1;
+            _enemyPointsText.transform.GetComponent<TMP_Text>().text = "Enemy Points: " + _enemyPoints;
+            if (_enemyPoints == 12)
+            {
+                EnemyWins();
+            }
         }
     }
     public void CheckIfEnemyWasHit()
@@ -218,10 +271,18 @@ public class GameManager : MonoBehaviour
         if(ray.collider == null)
         {
             Debug.Log("Player didn't hit anything");
+            PlayMissSound();
         }
         else
         {
             Debug.Log("Player Hit -> true");
+            PlayHitSound();
+            _playerPoints += 1;
+            _playerPointsText.transform.GetComponent<TMP_Text>().text = "Player Points: " + _playerPoints;
+            if (_playerPoints == 12)
+            {
+                PlayerWins();
+            }
         }
     }
     public void CheckIfEnemyWasHitWithThrust()
@@ -230,16 +291,32 @@ public class GameManager : MonoBehaviour
         if(ray.collider == null)
         {
             Debug.Log("Player didn't hit anything");
+            PlayMissSound();
         }
         else
         {
             Debug.Log("Player Hit -> true");
+            PlayHitSound();
+            _playerPoints += 1;
+            _playerPointsText.transform.GetComponent<TMP_Text>().text = "Player Points: " + _playerPoints;
+            if (_playerPoints == 12)
+            {
+                PlayerWins();
+            }
         }
     }
 
     public void PlayerFinishedDefending()
     {
         _enemy.StopCoroutine(_enemy.coroutine);
+        if (isWaiting)
+        {
+            isWaiting = false;
+            _timeToAttackText.SetActive(false);
+            timer = 5f;
+        }
+        
+
 
         //Change to enemy attack sprite
         _enemy.ChangeToAttackSprite();
@@ -261,7 +338,7 @@ public class GameManager : MonoBehaviour
             {
                 //it was true, so player got blocked -> play sound of parrying
                 Debug.Log("Parry -> true");
-
+                PlaySwordsHitSound();
             }
             else
             {
@@ -294,6 +371,7 @@ public class GameManager : MonoBehaviour
             if (checkPointInsideArea(_playerArea, _enemyFinalVector, _playerBodyPart, _enemyBodyPart))
             {
                 Debug.Log("Parry -> true");
+                PlaySwordsHitSound();
             }
             else
             {
@@ -344,7 +422,7 @@ public class GameManager : MonoBehaviour
             //tell player to reset collider to zero
             _player.ResetCollider();
         }
-        StartCoroutine(Wait2Seconds());
+        _coroutineWait2Seconds = StartCoroutine(Wait2Seconds());
         _current_turn = Turns.PLAYER_ATTACK;
     }
 
@@ -366,6 +444,7 @@ public class GameManager : MonoBehaviour
             {
                 //it was true, so player got blocked -> play sound of parrying
                 Debug.Log("Parry -> true");
+                PlaySwordsHitSound();
             }
             else
             {
@@ -395,6 +474,7 @@ public class GameManager : MonoBehaviour
             if (checkPointInsideArea(_enemyArea, _playerThrustPoint, _playerBodyPart, _enemyBodyPart))
             {
                 Debug.Log("Parry -> true");
+                PlaySwordsHitSound();
             }
             else
             {
@@ -440,7 +520,7 @@ public class GameManager : MonoBehaviour
             }*/
 
         }
-        StartCoroutine(Wait2Seconds());
+        //_coroutineEnemyWait2Seconds = StartCoroutine(EnemyWait2Seconds());
     }
 
     public static bool checkIntersection(Vector3 playerPointA, Vector3 playerPointB, Vector3 enemyPointA, Vector3 enemyPointB)
@@ -676,13 +756,54 @@ public class GameManager : MonoBehaviour
         PlayerFinishedDefending();
     }
 
+    public void PlayMissSound()
+    {
+        _swordMiss.Play();
+    }
+    public void PlayHitSound()
+    {
+        _swordHit.Play();
+    }
+    public void PlaySwordsHitSound()
+    {
+        _swordsHit.Play();
+    }
+
     public void StartGame()
     {
+        //_playerPoints = 9;
+        _playerPointsText.GetComponent<TMP_Text>().text = "Player Points: " + _playerPoints;
+        _enemyPointsText.GetComponent<TMP_Text>().text = "Enemy Points: " + _enemyPoints;
+        _swordUnseathe.Play();
         _current_turn = Turns.PLAYER_ATTACK;
     }
 
-    //func to reset game and be called on yes button from exit menu
-    public void ResetGame(){
-        
+    public void PlayerWins()
+    {
+        _enemy.StopCoroutine(_enemy.coroutine);
+
+        _current_turn = Turns.IDLE;
+        _inputHandler.current_move = InputHandler.Moves.IDLE;
+        _enemy.current_move = EnemyManager.Moves.IDLE;
+        _defendMenuUI.SetActive(false);
+        _attackMenuUI.SetActive(false);
+        _playerWinsMenu.SetActive(true);
+        _playerPointsText.SetActive(false);
+        _enemyPointsText.SetActive(false);
+        _timeToAttackText.SetActive(false);
+    }
+    public void EnemyWins()
+    {
+        _enemy.StopCoroutine(_enemy.coroutine);
+
+        _current_turn = Turns.IDLE;
+        _inputHandler.current_move = InputHandler.Moves.IDLE;
+        _enemy.current_move = EnemyManager.Moves.IDLE;
+        _defendMenuUI.SetActive(false);
+        _attackMenuUI.SetActive(false);
+        _enemyWinsMenu.SetActive(true);
+        _playerPointsText.SetActive(false);
+        _enemyPointsText.SetActive(false);
+        _timeToAttackText.SetActive(false);
     }
 }

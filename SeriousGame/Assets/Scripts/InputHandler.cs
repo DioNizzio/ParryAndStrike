@@ -61,7 +61,7 @@ public class InputHandler : MonoBehaviour{
     }
 
     void Update(){
-        if(playerInput.Gameplay.Pause.WasPressedThisFrame()){
+        if(playerInput.Gameplay.Pause.triggered){
             if (!_isPaused){
                 PauseGame();
             } else {
