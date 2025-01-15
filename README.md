@@ -1,2 +1,2 @@
-# SeriousGame
-This game is a strategic 2D game designed to teach players the fundamental principles and techniques of longsword dueling in HEMA. The players will assume the role of duelists, challenging a bot, using skills representing various longsword moves, guards and stances. The objective is to defeat the bot in a simulated duel while learning how to use said principles and techniques.
+# Parry&Strike
+This game is a strategic 2D game designed to teach players the fundamental principles and techniques of longsword dueling in HEMA. The players will assume the role of duelists, challenging a bot, using skills representing various longsword moves, guards and stances. The objective is to defeat the bot in a simulated duel while learning how to use said principles and techniques. Try to predict the opponents movements and reach 12 hit points to win the duel.
